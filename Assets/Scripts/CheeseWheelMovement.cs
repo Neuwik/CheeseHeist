@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CheeseWheelMovement : MonoBehaviour
 {
     private Rigidbody rb;
-    private float movemntForward;
+    private float movementForward;
     private float movementTurn;
 
     public float ForwardSpeed = 1;
     public float TurnSpeed = 1;
+
+    public GameObject WheelCenter;
 
     void Start()
     {
@@ -19,15 +22,24 @@ public class CheeseWheelMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        rb.AddForce(transform.forward * movemntForward * ForwardSpeed);
-        rb.MoveRotation(rb.rotation * new Quaternion(0, movementTurn, 0, TurnSpeed));
+        Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, movementTurn * TurnSpeed * Time.fixedDeltaTime, 0));
+        rb.MoveRotation(deltaRotation * transform.rotation);
+
+        Vector3 forward = Vector3.Cross(transform.up, Vector3.down).normalized;
+        //Debug.DrawRay(transform.position, forward, Color.yellow, Time.fixedDeltaTime);
+
+        rb.AddForce(forward * movementForward * ForwardSpeed * Time.fixedDeltaTime * rb.mass);
+
+        //Camera
+        WheelCenter.transform.position = transform.position;
+        WheelCenter.transform.LookAt(transform.position + forward);
     }
 
     private void OnMove(InputValue movementValue)
     {
         Vector2 movementVector = movementValue.Get<Vector2>();
 
-        movemntForward = movementVector.y;
+        movementForward = movementVector.y;
         movementTurn = movementVector.x;
     }
 }
