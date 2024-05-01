@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6930038539995131122}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WheelCenter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1861914820381970843}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: CheeseWheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 837674820787500021}
   - component: {fileID: 4510722511157947467}
   - component: {fileID: 1612435201143668775}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 8235344104202246968}
   - component: {fileID: 7979283934633936395}
   - component: {fileID: 6426069408559915218}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Physics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
