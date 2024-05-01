@@ -10,9 +10,11 @@ public class CheeseWheelMovement : MonoBehaviour
     private Rigidbody rb;
     private float movementForward;
     private float movementTurn;
+    private float honeyModifier = 1;
 
     public float ForwardSpeed = 1;
     public float TurnSpeed = 1;
+    public float SlownessEffect = 1;
 
     public LayerMask GroundLayer;
     public Vector3 Down = Vector3.down;
@@ -30,7 +32,7 @@ public class CheeseWheelMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, movementTurn * TurnSpeed * Time.fixedDeltaTime, 0));
+        Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, movementTurn * TurnSpeed * Time.fixedDeltaTime * honeyModifier, 0 ));
         rb.MoveRotation(deltaRotation * transform.rotation);
 
         RaycastHit hit;
@@ -41,16 +43,16 @@ public class CheeseWheelMovement : MonoBehaviour
         Debug.DrawRay(transform.position, Down, Color.yellow, Time.fixedDeltaTime);
 
         Forward = Vector3.Cross(transform.up, Down).normalized;
-        Debug.DrawRay(transform.position, Forward, Color.blue, Time.fixedDeltaTime);
+        // Debug.DrawRay(transform.position, Forward, Color.blue, Time.fixedDeltaTime);
 
-        rb.AddForce(Forward * movementForward * ForwardSpeed * Time.fixedDeltaTime * rb.mass);
+        rb.AddForce(Forward * movementForward * ForwardSpeed * Time.fixedDeltaTime * rb.mass * honeyModifier);
 
         //Camera
         WheelCenter.transform.position = transform.position;
         WheelCenter.transform.LookAt(transform.position + Forward);
 
         float angle = Vector3.Angle(Down, transform.up);
-        Debug.Log(angle);
+        //Debug.Log(angle);
         if (angle + AutoResetAngle >= 180 || angle - AutoResetAngle <= 0)
         {
             ResetPosition();
@@ -76,5 +78,18 @@ public class CheeseWheelMovement : MonoBehaviour
         transform.position = ResetPoint.transform.position + ResetPositionOffset;
         transform.LookAt(transform.position + ResetPoint.transform.forward);
         transform.Rotate(transform.forward, 90);
+    }
+    
+    public IEnumerator ApplySlowness(float timer)
+    {
+        if(honeyModifier != 1.0f)
+        {
+            yield return new WaitUntil(() => honeyModifier == 1.0f);
+        }
+        rb.drag = 1.5f;
+        honeyModifier = 0.70f;
+        yield return new WaitForSeconds(timer);
+        honeyModifier = 1.0f;
+        rb.drag = 0;
     }
 }
