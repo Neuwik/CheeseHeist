@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Player2
+  - CheeseWheel
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - UI
   - CheeseWheel
   - ResetPoint
-  - 
+  - Obstacle
   - 
   - 
   - 
