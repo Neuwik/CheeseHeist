@@ -208,6 +208,7 @@ GameObject:
   - component: {fileID: 8235344104202246968}
   - component: {fileID: 7979283934633936395}
   - component: {fileID: 6426069408559915218}
+  - component: {fileID: 7380567481797873925}
   m_Layer: 6
   m_Name: Physics
   m_TagString: CheeseWheel
@@ -384,3 +385,15 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &7380567481797873925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7897043525069609329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3219b0f334d6d74780f559f17386ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

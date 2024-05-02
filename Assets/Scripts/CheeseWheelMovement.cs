@@ -35,10 +35,9 @@ public class CheeseWheelMovement : MonoBehaviour
     void FixedUpdate()
     {
         // Apply control inversion if active
-        float actualMovementTurn = controlsInverted ? -movementTurn : movementTurn;
-        float actualMovementForward = controlsInverted ? -movementForward : movementForward;
+        // float actualMovementTurn = controlsInverted ? -movementTurn : movementTurn;
+        // float actualMovementForward = controlsInverted ? -movementForward : movementForward;
 
-        Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, movementTurn * TurnSpeed * Time.fixedDeltaTime, 0));
         Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, movementTurn * TurnSpeed * Time.fixedDeltaTime * honeyModifier, 0 ));
         rb.MoveRotation(deltaRotation * transform.rotation);
 
@@ -101,17 +100,10 @@ public class CheeseWheelMovement : MonoBehaviour
 
     private void ResetPosition()
     {
-        if (!FinishLine.isFinished)  // Check if the game has ended
-        {
-            rb.Sleep();  // Stop all physics activity
-            transform.position = ResetPoint.transform.position + ResetPositionOffset;  // Reset position
-            transform.LookAt(transform.position + ResetPoint.transform.forward);  // Reset orientation
-            transform.Rotate(transform.forward, 90);  // Correct rotation to original setup
-        }
-        else
-        {
-            Debug.Log("Reset not allowed. Game has finished.");
-        }
+        rb.Sleep();  // Stop all physics activity
+        transform.position = ResetPoint.transform.position + ResetPositionOffset;  // Reset position
+        transform.LookAt(transform.position + ResetPoint.transform.forward);  // Reset orientation
+        transform.Rotate(transform.forward, 90);  // Correct rotation to original setup
     }
 
 

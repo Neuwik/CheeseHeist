@@ -8,8 +8,8 @@ public class SlowingEffect : MonoBehaviour
     {
         if (other.TryGetComponent<CheeseWheelMovement>(out CheeseWheelMovement wheel))
         {
-            Debug.Log($"{wheel.name} came in contact with honey");
             wheel.ApplySlowness(3);
+            new WaitForSeconds(1);
             Destroy(gameObject);
         }
     }
