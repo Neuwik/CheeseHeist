@@ -22,7 +22,7 @@ public class CheeseWheelMovement : MonoBehaviour
     public GameObject WheelCenter;
     public GameObject ResetPoint;
     public Vector3 ResetPositionOffset = new Vector3(0,2,0);
-    public float AutoResetAngle = 45;
+    public float AutoResetAngle = 10;
 
     void Start()
     {
@@ -79,17 +79,22 @@ public class CheeseWheelMovement : MonoBehaviour
         transform.LookAt(transform.position + ResetPoint.transform.forward);
         transform.Rotate(transform.forward, 90);
     }
-    
-    public IEnumerator ApplySlowness(float timer)
+    public void ApplySlowness(float timer)
+    {
+        StartCoroutine(CalcSlowness(timer));
+    }
+    private IEnumerator CalcSlowness(float timer)
     {
         if(honeyModifier != 1.0f)
         {
             yield return new WaitUntil(() => honeyModifier == 1.0f);
         }
-        rb.drag = 1.5f;
+        rb.drag += 1.5f;
         honeyModifier = 0.70f;
+        Debug.Log($"vorm wait");
         yield return new WaitForSeconds(timer);
+        Debug.Log($"nach wait");
         honeyModifier = 1.0f;
-        rb.drag = 0;
+        rb.drag -= 1.5f;
     }
 }

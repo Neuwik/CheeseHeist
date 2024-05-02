@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class SlowingEffect : MonoBehaviour
 {
-
-    void Start()
-    {
-        
-    }
-
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<CheeseWheelMovement>(out CheeseWheelMovement wheep))
+        if (other.TryGetComponent<CheeseWheelMovement>(out CheeseWheelMovement wheel))
         {
-            Debug.Log($"{wheep.name} came in contact with honey");
-            StartCoroutine(wheep.ApplySlowness(3));
+            Debug.Log($"{wheel.name} came in contact with honey");
+            wheel.ApplySlowness(3);
+            Destroy(gameObject);
         }
     }
 }

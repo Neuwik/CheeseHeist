@@ -5,12 +5,11 @@ using UnityEngine;
 public class ResetPoint : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
-    {
-        CheeseWheelMovement wheep = other.gameObject.GetComponent<CheeseWheelMovement>();
-        if (wheep != null)
+    { 
+        if (other.TryGetComponent<CheeseWheelMovement>(out CheeseWheelMovement wheel))
         {
-            Debug.Log($"{wheep.name} has reached a checkpoint {transform.position}");
-            wheep.ResetPoint = gameObject;
+            Debug.Log($"{wheel.name} has reached a checkpoint {transform.position}");
+            wheel.ResetPoint = gameObject;
         }
     }
 }
