@@ -18,6 +18,8 @@ public class CheeseWheelMovement : MonoBehaviour
     public GameObject ResetPoint;
     public Vector3 ResetPositionOffset = new Vector3(0,2,0);
 
+    private bool controlsInverted = false;
+
     void Start()
     {
         ResetPoint = transform.parent.gameObject;
@@ -26,6 +28,10 @@ public class CheeseWheelMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Apply control inversion if active
+        float actualMovementTurn = controlsInverted ? -movementTurn : movementTurn;
+        float actualMovementForward = controlsInverted ? -movementForward : movementForward;
+
         Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, movementTurn * TurnSpeed * Time.fixedDeltaTime, 0));
         rb.MoveRotation(deltaRotation * transform.rotation);
 
@@ -39,12 +45,32 @@ public class CheeseWheelMovement : MonoBehaviour
         WheelCenter.transform.LookAt(transform.position + Forward);
     }
 
+    //private void OnMove(InputValue movementValue)
+    //{
+    //    Vector2 movementVector = movementValue.Get<Vector2>();
+
+    //    movementForward = movementVector.y;
+    //    movementTurn = movementVector.x;
+       
+    //}
+
+
     private void OnMove(InputValue movementValue)
     {
         Vector2 movementVector = movementValue.Get<Vector2>();
 
-        movementForward = movementVector.y;
-        movementTurn = movementVector.x;
+        // Check if controls are inverted
+        if (controlsInverted)
+        {
+            // Invert the movement input
+            movementForward = -movementVector.y; // Inverts forward/backward (W/S or Up/Down)
+            movementTurn = -movementVector.x; // Inverts turning left/right (A/D or Left/Right)
+        }
+        else
+        {
+            movementForward = movementVector.y;
+            movementTurn = movementVector.x;
+        }
     }
 
     private void OnResetPosition()
@@ -65,5 +91,20 @@ public class CheeseWheelMovement : MonoBehaviour
         {
             Debug.Log("Reset not allowed. Game has finished.");
         }
+    }
+
+
+    // Method to invert controls
+    public void InvertControls(float duration)
+    {
+        StartCoroutine(InvertControlsRoutine(duration));
+    }
+
+    // Coroutine to handle control inversion duration
+    private IEnumerator InvertControlsRoutine(float duration)
+    {
+        controlsInverted = true;
+        yield return new WaitForSeconds(duration);
+        controlsInverted = false;
     }
 }

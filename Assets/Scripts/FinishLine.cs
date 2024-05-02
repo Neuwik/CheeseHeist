@@ -29,7 +29,7 @@ public class FinishLine : MonoBehaviour
     {
 
         // Check if the collider belongs to a GameObject tagged as "Player"
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") || other.CompareTag("Player2"))
         {
             // Log a message to the Console to indicate which player has crossed the finish line
             Debug.Log(other.name + " wins!");
