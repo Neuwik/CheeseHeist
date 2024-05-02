@@ -54,9 +54,16 @@ public class CheeseWheelMovement : MonoBehaviour
 
     private void ResetPosition()
     {
-        rb.Sleep();
-        transform.position = ResetPoint.transform.position + ResetPositionOffset;
-        transform.LookAt(transform.position + ResetPoint.transform.forward);
-        transform.Rotate(transform.forward, 90);
+        if (!FinishLine.isFinished)  // Check if the game has ended
+        {
+            rb.Sleep();  // Stop all physics activity
+            transform.position = ResetPoint.transform.position + ResetPositionOffset;  // Reset position
+            transform.LookAt(transform.position + ResetPoint.transform.forward);  // Reset orientation
+            transform.Rotate(transform.forward, 90);  // Correct rotation to original setup
+        }
+        else
+        {
+            Debug.Log("Reset not allowed. Game has finished.");
+        }
     }
 }
