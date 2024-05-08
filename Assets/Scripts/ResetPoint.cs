@@ -9,7 +9,7 @@ public class ResetPoint : MonoBehaviour
         if (other.TryGetComponent<CheeseWheelMovement>(out CheeseWheelMovement wheel))
         {
             Debug.Log($"{wheel.name} has reached a checkpoint {transform.position}");
-            wheel.ResetPoint = gameObject;
+            wheel.SetResetPoint(gameObject);
         }
     }
 }

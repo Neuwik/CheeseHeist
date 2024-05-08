@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 public class CheeseWheelMovement : MonoBehaviour
 {
@@ -20,15 +19,23 @@ public class CheeseWheelMovement : MonoBehaviour
     public Vector3 Down = Vector3.down;
     public Vector3 Forward = Vector3.forward;
     public GameObject WheelCenter;
-    public GameObject ResetPoint;
-    public Vector3 ResetPositionOffset = new Vector3(0,2,0);
+
+
+    private GameObject ResetPoint;
+    public void SetResetPoint(GameObject reset) { ResetPoint = reset; }
+    private Vector3 PlayerSpecificResetPositionOffset = Vector3.zero;
+    public void SetPlayerSpecificResetPositionOffset(Vector3 offset) { PlayerSpecificResetPositionOffset = offset; }
+    public Vector3 ResetPositionOffset { get { return PlayerSpecificResetPositionOffset + Vector3.up * 2; } }
     public float AutoResetAngle = 10;
 
     private bool controlsInverted = false;
 
     void Start()
     {
-        ResetPoint = transform.parent.gameObject;
+        if (ResetPoint == null)
+        {
+            ResetPoint = GameManager.Instance.StartPoint;
+        }
         rb = GetComponent<Rigidbody>();
     }
 
@@ -98,7 +105,7 @@ public class CheeseWheelMovement : MonoBehaviour
         ResetPosition();
     }
 
-    private void ResetPosition()
+    public void ResetPosition()
     {
         rb.Sleep();  // Stop all physics activity
         transform.position = ResetPoint.transform.position + ResetPositionOffset;  // Reset position

@@ -28,16 +28,17 @@ public class FinishLine : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 
-        // Check if the collider belongs to a GameObject tagged as "Player"
-        if (other.CompareTag("Player") || other.CompareTag("Player2"))
+        // Check if the collider belongs to a CheeseWheelMovement
+        CheeseWheelMovement wheel;
+        if (other.TryGetComponent<CheeseWheelMovement>(out wheel))
         {
             // Log a message to the Console to indicate which player has crossed the finish line
-            Debug.Log(other.name + " wins!");
+            Debug.Log(wheel.name + " wins!");
             isFinished = true;  // Set the flag when the finish line is crossed
             // Optional: Add additional logic here to handle the end of the game, such as:
             // - Displaying a win message
             // Stop the movement of the player who crosses the finish line
-            Rigidbody playerRigidbody = other.GetComponent<Rigidbody>();
+            Rigidbody playerRigidbody = wheel.GetComponent<Rigidbody>();
             if (playerRigidbody != null)
             {
                 playerRigidbody.velocity = Vector3.zero; // Stop any current movement
