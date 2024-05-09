@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6586322378941905507}
   - component: {fileID: 1854566487603452506}
   - component: {fileID: 6989118278591591125}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ControlInverter
   m_TagString: Untagged
   m_Icon: {fileID: 0}

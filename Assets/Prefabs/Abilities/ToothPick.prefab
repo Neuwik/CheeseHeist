@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4413132337969941251}
   - component: {fileID: 4466543472797484464}
   - component: {fileID: -5380636590156555832}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ToothPick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
