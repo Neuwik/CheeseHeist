@@ -2,11 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public struct PlayerComponents
 {
-    private GameObject _object;
+    private GameObject _object; //The Physics object
     public GameObject Object
     {
         get { return _object; }
@@ -95,6 +94,25 @@ public class GameManager : MonoBehaviour
         Player2.Inputs.ActivateInput();
         Player1.WheelMovement.ResetPosition();
         Player2.WheelMovement.ResetPosition();
+    }
+
+    public GameObject GetOtherPlayerObject(GameObject player)
+    {
+        if (player == null)
+        {
+            return null;
+        }
+
+        if (player == Player1.Object)
+        {
+            return Player2.Object;
+        }
+        if (player == Player2.Object)
+        {
+            return Player1.Object;
+        }
+
+        return null;
     }
     #endregion
 

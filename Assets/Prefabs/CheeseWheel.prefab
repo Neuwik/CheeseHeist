@@ -785,6 +785,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3219b0f334d6d74780f559f17386ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinMass: 10
+  MaxMass: 30
+  CheeseCollectablePrefab: {fileID: 2599276395809146583, guid: 3e89fa5bd36fd0f4f8099fe10307bd28,
+    type: 3}
+  WheelCenter: {fileID: 136800063511329479}
 --- !u!114 &8297933091058708262
 MonoBehaviour:
   m_ObjectHideFlags: 0
