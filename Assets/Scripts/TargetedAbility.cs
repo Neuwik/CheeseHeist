@@ -19,6 +19,7 @@ public class TargetedAbility : Ability
     private void Update()
     {
         Vector3 direction = Target.transform.position - transform.position;
+        transform.LookAt(Target.transform.position);
         transform.position += direction * Speed * Time.deltaTime;
     }
 }
