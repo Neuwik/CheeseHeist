@@ -56,8 +56,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(WaitingForPlayers());
     }
 
-
     public GameObject StartPoint;
+
+    #region Multiplayer
     public GameObject WaitingScreen;
 
     public PlayerComponents Player1;
@@ -95,4 +96,18 @@ public class GameManager : MonoBehaviour
         Player1.WheelMovement.ResetPosition();
         Player2.WheelMovement.ResetPosition();
     }
+    #endregion
+
+    #region Abilities
+    public List<Ability> AbilityPrefabs;
+
+    public Ability GetRandomAbility()
+    {
+        if (AbilityPrefabs != null)
+        {
+            return AbilityPrefabs[Random.Range(0, AbilityPrefabs.Count)];
+        }
+        return null;
+    }
+    #endregion
 }
