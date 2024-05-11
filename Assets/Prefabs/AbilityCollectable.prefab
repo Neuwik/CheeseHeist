@@ -67,6 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfad266c5a27f584bafbd4198d70f198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RespawnTime: 20
+  Collider: {fileID: 8025144231506179137}
+  Animation: {fileID: 3363585904185095116}
 --- !u!1 &3363585904185095116
 GameObject:
   m_ObjectHideFlags: 0

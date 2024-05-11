@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4413132337969941251}
   - component: {fileID: 4466543472797484464}
   - component: {fileID: -5380636590156555832}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: ToothPick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,6 +123,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 1
+  Uses: 1
+  TickRate: 0
 --- !u!114 &-5380636590156555832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +140,9 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 30747c4de76964b428e190ce1e8b2b11, type: 3}
   Name: ToothPick
   Caster: {fileID: 0}
+  SpawnAsCasterChild: 0
+  SpawnOffsetFromCaster: {x: 0, y: 10, z: 0}
+  Duration: -1
   Speed: 10
 --- !u!1 &4512146984693504068
 GameObject:
@@ -150,7 +155,7 @@ GameObject:
   - component: {fileID: 2618759457423302189}
   - component: {fileID: 5140017828890370541}
   - component: {fileID: 7493924432631866933}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}

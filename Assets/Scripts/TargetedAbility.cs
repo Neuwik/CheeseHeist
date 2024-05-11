@@ -7,8 +7,10 @@ public class TargetedAbility : Ability
     public float Speed;
     private GameObject Target;
 
-    private void Start()
+    protected new void Start()
     {
+        base.Start();
+
         Target = GameManager.Instance.GetOtherPlayerObject(Caster.gameObject);
         if (Target == null)
         {

@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class MassController : MonoBehaviour
 {
-    public float MinMass = 10;
+    public float MinMass = 15;
     public float MaxMass = 30;
     private Rigidbody rb;
+    [SerializeField]
     private Vector3 MassScaleChange = new Vector3(0.2f, 0.1f, 0.2f);
 
     public CheeseCollectable CheeseCollectablePrefab;
@@ -44,7 +45,7 @@ public class MassController : MonoBehaviour
         {
             amount = rb.mass - MinMass;
         }
-        rb.mass += amount;
+        rb.mass -= amount;
         gameObject.transform.localScale -= (MassScaleChange * amount);
         StartCoroutine(DropCheeseCollectables(amount));
     }
