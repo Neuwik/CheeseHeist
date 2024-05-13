@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetedAbility : Ability
+public class TargetedAbility : SpawningAbility
 {
     public float Speed;
     private GameObject Target;

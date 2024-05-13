@@ -256,9 +256,9 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 30747c4de76964b428e190ce1e8b2b11, type: 3}
   Name: Blades
   Caster: {fileID: 0}
-  SpawnAsCasterChild: 1
-  SpawnOffsetFromCaster: {x: 0, y: 0, z: 0}
   Duration: 5
+  SpawnParent: 1
+  SpawnOffsetFromWheelCenter: {x: 0, y: 0, z: 0}
 --- !u!1 &8284485149701346452
 GameObject:
   m_ObjectHideFlags: 0

@@ -96,30 +96,70 @@ public class GameManager : MonoBehaviour
         Player2.WheelMovement.ResetPosition();
     }
 
-    public GameObject GetOtherPlayerObject(GameObject player)
+    public CheeseWheelMovement GetPlayerWheelMovement(GameObject player)
+    {
+        return GetPlayer(player).WheelMovement;
+    }
+
+    public GameObject GetPlayerObject(GameObject player)
+    {
+        return GetPlayer(player).Object;
+    }
+
+    public PlayerComponents GetPlayer(GameObject player)
     {
         if (player == null)
         {
-            return null;
+            return new PlayerComponents();
         }
 
         if (player == Player1.Object)
         {
-            return Player2.Object;
+            return Player1;
         }
         if (player == Player2.Object)
         {
-            return Player1.Object;
+            return Player2;
         }
 
-        return null;
+        return new PlayerComponents();
     }
+
+    public CheeseWheelMovement GetOtherPlayerWheelMovement(GameObject player)
+    {
+        return GetOtherPlayer(player).WheelMovement;
+    }
+
+    public GameObject GetOtherPlayerObject(GameObject player)
+    {
+        return GetOtherPlayer(player).Object;
+    }
+
+    public PlayerComponents GetOtherPlayer(GameObject player)
+    {
+        if (player == null)
+        {
+            return new PlayerComponents();
+        }
+
+        if (player == Player1.Object)
+        {
+            return Player2;
+        }
+        if (player == Player2.Object)
+        {
+            return Player1;
+        }
+
+        return new PlayerComponents();
+    }
+
     #endregion
 
     #region Abilities
-    public List<Ability> AbilityPrefabs;
+    public List<AAbility> AbilityPrefabs;
 
-    public Ability GetRandomAbility()
+    public AAbility GetRandomAbility()
     {
         if (AbilityPrefabs != null)
         {

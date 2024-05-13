@@ -14,6 +14,9 @@ public class MassController : MonoBehaviour
     public CheeseCollectable CheeseCollectablePrefab;
     public GameObject WheelCenter;
 
+    private bool shielded = false;
+    private int shieldCount = 0;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -41,6 +44,11 @@ public class MassController : MonoBehaviour
     }
     private void LooseMass(float amount)
     {
+        if (shielded)
+        {
+            return;
+        }
+
         if (rb.mass - amount < MinMass)
         {
             amount = rb.mass - MinMass;
@@ -56,6 +64,23 @@ public class MassController : MonoBehaviour
         {
             Instantiate(CheeseCollectablePrefab, WheelCenter.transform.position + WheelCenter.transform.up + WheelCenter.transform.forward * -3, WheelCenter.transform.rotation);
             yield return new WaitForSeconds(0.3f);
+        }
+    }
+
+    public void Shield(float duration)
+    {
+        StartCoroutine(ApplyShield(duration));
+    }
+
+    public IEnumerator ApplyShield(float duration)
+    {
+        shieldCount++;
+        shielded = true;
+        yield return new WaitForSeconds(duration);
+        shieldCount--;
+        if (shieldCount <= 0)
+        {
+            shielded = false;
         }
     }
 }

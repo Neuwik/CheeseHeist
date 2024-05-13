@@ -145,4 +145,9 @@ public class CheeseWheelMovement : MonoBehaviour
         honeyModifier = 1.0f;
         rb.drag -= 1.5f;
     }
+
+    public void Jump(float power)
+    {
+        rb.AddForce(Down * -1 * power * rb.mass, ForceMode.Impulse);
+    }
 }
