@@ -55,7 +55,7 @@ public class CheeseWheelMovement : MonoBehaviour
         }
         Debug.DrawRay(transform.position, Down, Color.yellow, Time.fixedDeltaTime);
 
-        Forward = Vector3.Cross(transform.up, Down).normalized;
+        Forward = Vector3.Cross(transform.right, Down * -1).normalized;
         // Debug.DrawRay(transform.position, Forward, Color.blue, Time.fixedDeltaTime);
 
         rb.AddForce(Forward * movementForward * ForwardSpeed * Time.fixedDeltaTime * rb.mass * honeyModifier);
@@ -110,7 +110,7 @@ public class CheeseWheelMovement : MonoBehaviour
         rb.Sleep();  // Stop all physics activity
         transform.position = ResetPoint.transform.position + ResetPositionOffset;  // Reset position
         transform.LookAt(transform.position + ResetPoint.transform.forward);  // Reset orientation
-        transform.Rotate(transform.forward, 90);  // Correct rotation to original setup
+        //transform.Rotate(transform.forward, 0); 
     }
 
 
