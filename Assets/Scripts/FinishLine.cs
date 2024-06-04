@@ -32,6 +32,7 @@ public class FinishLine : MonoBehaviour
         CheeseWheelMovement wheel;
         if (other.TryGetComponent<CheeseWheelMovement>(out wheel))
         {
+            /*
             // Log a message to the Console to indicate which player has crossed the finish line
             Debug.Log(wheel.name + " wins!");
             isFinished = true;  // Set the flag when the finish line is crossed
@@ -46,6 +47,16 @@ public class FinishLine : MonoBehaviour
             }
             // - Triggering a victory animation
             // - Loading a new scene or restarting the game
+            */
+
+            MassController mass = wheel.GetComponent<MassController>();
+            Player player = GameManager.Instance.GetPlayer(wheel);
+            if (player != null && mass != null)
+            {
+                GameManager.Instance.DeliveredCheese(player, mass);
+            }
+
+            wheel.ResetPosition();
         }
     }
 }

@@ -91,9 +91,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartPoint: {fileID: 0}
+  CheeseMassNeeded: 50
   Player1: {fileID: 0}
   Player2: {fileID: 0}
-  WaitingScreen: {fileID: 0}
+  WaitingForPlayerPanel: {fileID: 0}
+  WaitingForReadyPanel: {fileID: 0}
+  ResultPanel: {fileID: 0}
   AbilityPrefabs:
   - {fileID: -7440494577150526630, guid: 9174164d575619c41b85e1038ebb6c89, type: 3}
   - {fileID: -8006235348289087353, guid: 3ee76c8f9d366e846afc497c5473699e, type: 3}

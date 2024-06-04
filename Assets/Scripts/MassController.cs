@@ -8,6 +8,7 @@ public class MassController : MonoBehaviour
     public float MinMass = 15;
     public float MaxMass = 30;
     private Rigidbody rb;
+    public float CurrentMass { get => rb.mass; }
     [SerializeField]
     private Vector3 MassScaleChange = new Vector3(0.2f, 0.1f, 0.2f);
 
