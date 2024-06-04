@@ -24,19 +24,6 @@ public class Player : MonoBehaviour
     public List<PlayerStateInputCameraCanvasMapping> InputCameraCanvasMaps;
     private PlayerStateInputCameraCanvasMapping currentICC;
 
-    public GameObject CheeseWheel;
-
-    private CheeseWheelControllsMapper _wheelControllsMapper;
-    public CheeseWheelControllsMapper WheelControllsMapper
-    {
-        get
-        {
-            if (_wheelControllsMapper == null)
-                _wheelControllsMapper = CheeseWheel.GetComponent<CheeseWheelControllsMapper>();
-            return _wheelControllsMapper;
-        }
-    }
-
     public PlayerInput Inputs;
 
     public Camera PlayerCamera;
@@ -53,6 +40,7 @@ public class Player : MonoBehaviour
             {
                 _state = value;
                 currentICC = InputCameraCanvasMaps.Find(m => m.State == _state);
+                Avatar?.SetInteger("StateEnum", (int)_state);
 
                 OnStateChanged?.Invoke(this, _state);
 
@@ -90,8 +78,24 @@ public class Player : MonoBehaviour
         }
     }
 
+    public GameObject CheeseWheel;
+
+    private CheeseWheelControllsMapper _wheelControllsMapper;
+    public CheeseWheelControllsMapper WheelControllsMapper
+    {
+        get
+        {
+            if (_wheelControllsMapper == null)
+                _wheelControllsMapper = CheeseWheel.GetComponent<CheeseWheelControllsMapper>();
+            return _wheelControllsMapper;
+        }
+    }
+
     public CheeseWheelMovement WheelMovement { get { return WheelControllsMapper?.Movement; } }
     public AbilityUser WheelAbilityUser { get { return WheelControllsMapper?.AbilityUser; } }
+
+    [HideInInspector]
+    public Animator Avatar;
 
     public float Points { get; private set; }
 
@@ -161,6 +165,11 @@ public class Player : MonoBehaviour
             return;
         }
         if (State == EPlayerState.Ready)
+        {
+            State = EPlayerState.Waiting;
+            return;
+        }
+        if (State == EPlayerState.Won)
         {
             State = EPlayerState.Waiting;
             return;
