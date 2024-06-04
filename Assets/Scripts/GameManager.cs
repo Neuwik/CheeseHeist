@@ -88,11 +88,11 @@ public class GameManager : MonoBehaviour
     public IEnumerator WaitingForPlayers()
     {
         WaitingScreen.SetActive(true);
-        yield return new WaitUntil(() => Player1.Inputs != null && Player2.Inputs != null);
+        yield return new WaitUntil(() => Player1.Inputs != null && Player2.Inputs != null || 1 == 1);
         WaitingScreen.SetActive(false);
         Player1.Inputs.ActivateInput();
-        Player2.Inputs.ActivateInput();
-        Player1.WheelMovement.ResetPosition();
-        Player2.WheelMovement.ResetPosition();
+        //Player2.Inputs.ActivateInput();
+        //Player1.WheelMovement.ResetPosition();
+        //Player2.WheelMovement.ResetPosition();
     }
 }

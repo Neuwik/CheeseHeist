@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
+using UnityEngine.Windows;
 
 public class CheeseWheelMovement : MonoBehaviour
 {
@@ -20,6 +22,14 @@ public class CheeseWheelMovement : MonoBehaviour
     public Vector3 Forward = Vector3.forward;
     public GameObject WheelCenter;
 
+    // Wheel colider params
+    public float motorTorque = 2;
+    public float brakeTorque = 20;
+    public float maxSpeed = 2;
+    public float steeringRange = 30;
+    public float steeringRangeAtMaxSpeed = 10;
+    public float centreOfGravityOffset = 1f;
+    public CheeseWheelControl CheeseWheelControl;
 
     private GameObject ResetPoint;
     public void SetResetPoint(GameObject reset) { ResetPoint = reset; }
@@ -32,14 +42,40 @@ public class CheeseWheelMovement : MonoBehaviour
 
     void Start()
     {
-        if (ResetPoint == null)
+        
+        /*if (ResetPoint == null)
         {
             ResetPoint = GameManager.Instance.StartPoint;
-        }
+        }*/
         rb = GetComponent<Rigidbody>();
+        
     }
 
     void FixedUpdate()
+    {
+        float verticalInput = UnityEngine.Input.GetAxis("Vertical");
+        float horizontalInput = UnityEngine.Input.GetAxis("Horizontal");
+
+        float forwardSpeed = Vector3.Dot(transform.forward, rb.velocity);
+        float speedFactor = Mathf.InverseLerp(0, maxSpeed, forwardSpeed);
+        
+        float currentMotorTorque = Mathf.Lerp(motorTorque, 0, speedFactor);
+        float currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);
+
+        CheeseWheelControl.WheelCollider.steerAngle = horizontalInput * currentSteerRange;
+
+        if (Mathf.Sign(verticalInput) == Mathf.Sign(forwardSpeed))
+        {
+            CheeseWheelControl.WheelCollider.motorTorque = verticalInput * currentMotorTorque;
+            CheeseWheelControl.WheelCollider.brakeTorque = 0;
+        }
+        else
+        {
+            CheeseWheelControl.WheelCollider.brakeTorque = Mathf.Abs(verticalInput) * brakeTorque;
+            CheeseWheelControl.WheelCollider.motorTorque = 0;
+        }
+    }
+    /*void FixedUpdate()
     {
         // Apply control inversion if active
         // float actualMovementTurn = controlsInverted ? -movementTurn : movementTurn;
@@ -70,7 +106,7 @@ public class CheeseWheelMovement : MonoBehaviour
         {
             ResetPosition();
         }
-    }
+    }*/
 
     //private void OnMove(InputValue movementValue)
     //{
@@ -99,7 +135,7 @@ public class CheeseWheelMovement : MonoBehaviour
             movementTurn = movementVector.x;
         }
     }
-
+    /*
     private void OnResetPosition()
     {
         ResetPosition();
@@ -112,7 +148,7 @@ public class CheeseWheelMovement : MonoBehaviour
         transform.LookAt(transform.position + ResetPoint.transform.forward);  // Reset orientation
         //transform.Rotate(transform.forward, 0); 
     }
-
+    */
 
     // Method to invert controls
     public void InvertControls(float duration)

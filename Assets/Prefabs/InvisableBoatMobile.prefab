@@ -1,0 +1,211 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2091922269549494466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 888328212000023085}
+  - component: {fileID: 4462196220273548477}
+  - component: {fileID: 67785504446788087}
+  m_Layer: 0
+  m_Name: InvisableBoatMobile
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &888328212000023085
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091922269549494466}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -50.2337, y: 269.778, z: 18.560316}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5587608125758750133}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4462196220273548477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091922269549494466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de26449cb4200034bbfcddb953ac84e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ForwardSpeed: 500
+  TurnSpeed: 80
+  SlownessEffect: 0
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  Down: {x: 0, y: -1, z: 0}
+  Forward: {x: 0, y: 0, z: 0}
+  WheelCenter: {fileID: 6177795990152500969}
+  motorTorque: 200
+  brakeTorque: 200
+  maxSpeed: 20
+  steeringRange: 30
+  steeringRangeAtMaxSpeed: 10
+  centreOfGravityOffset: -1
+  CheeseWheelControl: {fileID: 6385846530788503751}
+  AutoResetAngle: 45
+--- !u!54 &67785504446788087
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091922269549494466}
+  serializedVersion: 4
+  m_Mass: 400
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!1001 &6079281524963322926
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 888328212000023085}
+    m_Modifications:
+    - target: {fileID: 919552087380434153, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: wheelModel
+      value: 
+      objectReference: {fileID: 5587608125758750133}
+    - target: {fileID: 1861914820381970843, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -14.429493
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861914820381970843, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4.6522217
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861914820381970843, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.6743889
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861914820381970843, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861914820381970843, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861914820381970843, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861914820381970843, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861914820381970843, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861914820381970843, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1861914820381970843, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2842234679190427434, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: brakeTorque
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2842234679190427434, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: motorTorque
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505012421107081322, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: CheeseWheelControl
+      value: 
+      objectReference: {fileID: 6385846530788503751}
+    - target: {fileID: 6428682403986783241, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_Name
+      value: CheeseWheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8310500132928265566, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+        type: 3}
+      propertyPath: m_Mass
+      value: 400
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4505012421107081322, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9, type: 3}
+    - {fileID: 8385270385382115733, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9, type: 3}
+--- !u!4 &5587608125758750133 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1861914820381970843, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+    type: 3}
+  m_PrefabInstance: {fileID: 6079281524963322926}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6177795990152500969 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 136800063511329479, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+    type: 3}
+  m_PrefabInstance: {fileID: 6079281524963322926}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6385846530788503751 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 919552087380434153, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+    type: 3}
+  m_PrefabInstance: {fileID: 6079281524963322926}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46ccb07859ae19040a3a572b9c73ad96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
