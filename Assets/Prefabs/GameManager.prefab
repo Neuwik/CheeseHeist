@@ -67,7 +67,7 @@ MonoBehaviour:
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 6428682403986783241, guid: c2299d5d9d73e7240bf4a92e3c5ee7e9,
+  m_PlayerPrefab: {fileID: 2936612980700425268, guid: 0cb647ef079991f41a737616c7a116a9,
     type: 3}
   m_SplitScreen: 1
   m_MaintainAspectRatioInSplitScreen: 0
@@ -91,6 +91,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartPoint: {fileID: 0}
+  Player1: {fileID: 0}
+  Player2: {fileID: 0}
   WaitingScreen: {fileID: 0}
   AbilityPrefabs:
   - {fileID: -7440494577150526630, guid: 9174164d575619c41b85e1038ebb6c89, type: 3}

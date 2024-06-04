@@ -18,7 +18,7 @@ public class SpawningAbility : AAbility
         {
             case ESpawnParent.EnemyWheel:
             case ESpawnParent.EnemyWheelCenter:
-                target = GameManager.Instance.GetOtherPlayerObject(user.gameObject)?.GetComponent<AbilityUser>();
+                target = GameManager.Instance.GetOtherPlayerAbilityUser(user);
                 break;
             case ESpawnParent.None:
             case ESpawnParent.Wheel:

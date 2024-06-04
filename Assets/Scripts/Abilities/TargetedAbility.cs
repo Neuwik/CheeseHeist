@@ -5,13 +5,13 @@ using UnityEngine;
 public class TargetedAbility : SpawningAbility
 {
     public float Speed;
-    private GameObject Target;
+    private AbilityUser Target;
 
     protected new void Start()
     {
         base.Start();
 
-        Target = GameManager.Instance.GetOtherPlayerObject(Caster.gameObject);
+        Target = GameManager.Instance.GetOtherPlayerAbilityUser(Caster);
         if (Target == null)
         {
             Destroy(gameObject);

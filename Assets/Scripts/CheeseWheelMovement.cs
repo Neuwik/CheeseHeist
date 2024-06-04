@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class CheeseWheelMovement : MonoBehaviour
 {
-    private Rigidbody rb;
+    public Rigidbody rb;
     private float movementForward;
     private float movementTurn;
     private float honeyModifier = 1;
@@ -36,7 +36,10 @@ public class CheeseWheelMovement : MonoBehaviour
         {
             ResetPoint = GameManager.Instance.StartPoint;
         }
-        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody>();
+        }
     }
 
     void FixedUpdate()
@@ -82,7 +85,7 @@ public class CheeseWheelMovement : MonoBehaviour
     //}
 
 
-    private void OnMove(InputValue movementValue)
+    public void OnMove(InputValue movementValue)
     {
         Vector2 movementVector = movementValue.Get<Vector2>();
 
@@ -100,7 +103,7 @@ public class CheeseWheelMovement : MonoBehaviour
         }
     }
 
-    private void OnResetPosition()
+    public void OnResetPosition()
     {
         ResetPosition();
     }

@@ -2,23 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-public struct PlayerComponents
-{
-    private GameObject _object; //The Physics object
-    public GameObject Object
-    {
-        get { return _object; }
-        set
-        {
-            _object = value;
-            Inputs = _object.GetComponent<PlayerInput>();
-            WheelMovement = _object.GetComponent<CheeseWheelMovement>();
-        }
-    }
-    public PlayerInput Inputs { get; private set; }
-    public CheeseWheelMovement WheelMovement { get; private set; }
-}
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GameManager : MonoBehaviour
 {
@@ -57,27 +41,23 @@ public class GameManager : MonoBehaviour
 
     public GameObject StartPoint;
 
-    #region Multiplayer
+    [HideInInspector]
+    public Player Player1;
+    [HideInInspector]
+    public Player Player2;
     public GameObject WaitingScreen;
 
-    public PlayerComponents Player1;
-    public PlayerComponents Player2;
-
+    #region Multiplayer
     public void OnPlayerJoined(PlayerInput player)
     {
         Debug.Log("Player joined " + player.gameObject.name);
-        player.DeactivateInput();
-        if (Player1.Object == null)
+        if (Player1 == null)
         {
-            Player1.Object = player.gameObject;
-            Player1.WheelMovement.SetPlayerSpecificResetPositionOffset(Vector3.left * 2);
-            Player1.WheelMovement.SetResetPoint(StartPoint);
+            Player1 = player.GetComponent<Player>();
         }
-        else if (Player2.Object == null)
+        else if (Player2 == null)
         {
-            Player2.Object = player.gameObject;
-            Player2.WheelMovement.SetPlayerSpecificResetPositionOffset(Vector3.right * 2);
-            Player2.WheelMovement.SetResetPoint(StartPoint);
+            Player2 = player.GetComponent<Player>();
         }
         else
         {
@@ -88,12 +68,27 @@ public class GameManager : MonoBehaviour
     public IEnumerator WaitingForPlayers()
     {
         WaitingScreen.SetActive(true);
-        yield return new WaitUntil(() => Player1.Inputs != null && Player2.Inputs != null);
+        yield return new WaitUntil(() => Player1 != null && Player2 != null);
         WaitingScreen.SetActive(false);
-        Player1.Inputs.ActivateInput();
-        Player2.Inputs.ActivateInput();
-        Player1.WheelMovement.ResetPosition();
-        Player2.WheelMovement.ResetPosition();
+        Player1.SpawnCheeseWheel(StartPoint);
+        Player2.SpawnCheeseWheel(StartPoint);
+    }
+
+    public CheeseWheelMovement GetPlayerWheelMovement(AbilityUser playerAbilityUser)
+    {
+        if (playerAbilityUser != null)
+        {
+            if (playerAbilityUser == Player1.WheelAbilityUser)
+            {
+                return Player1.WheelMovement;
+            }
+            if (playerAbilityUser == Player2.WheelAbilityUser)
+            {
+                return Player2.WheelMovement;
+            }
+        }
+
+        return null;
     }
 
     public CheeseWheelMovement GetPlayerWheelMovement(GameObject player)
@@ -101,28 +96,55 @@ public class GameManager : MonoBehaviour
         return GetPlayer(player).WheelMovement;
     }
 
-    public GameObject GetPlayerObject(GameObject player)
+    public Player GetPlayer(GameObject player)
     {
-        return GetPlayer(player).Object;
+        if (player != null)
+        {
+            if (player == Player1)
+            {
+                return Player1;
+            }
+            if (player == Player2)
+            {
+                return Player2;
+            }
+        }
+
+        return null;
     }
 
-    public PlayerComponents GetPlayer(GameObject player)
+    public CheeseWheelMovement GetOtherPlayerWheelMovement(AbilityUser playerAbilityUser)
     {
-        if (player == null)
+        if (playerAbilityUser != null)
         {
-            return new PlayerComponents();
+            if (playerAbilityUser == Player1.WheelAbilityUser)
+            {
+                return Player2.WheelMovement;
+            }
+            if (playerAbilityUser == Player2.WheelAbilityUser)
+            {
+                return Player1.WheelMovement;
+            }
         }
 
-        if (player == Player1.Object)
+        return null;
+    }
+
+    public AbilityUser GetOtherPlayerAbilityUser(AbilityUser playerAbilityUser)
+    {
+        if (playerAbilityUser != null)
         {
-            return Player1;
-        }
-        if (player == Player2.Object)
-        {
-            return Player2;
+            if (playerAbilityUser == Player1.WheelAbilityUser)
+            {
+                return Player2.WheelAbilityUser;
+            }
+            if (playerAbilityUser == Player2.WheelAbilityUser)
+            {
+                return Player1.WheelAbilityUser;
+            }
         }
 
-        return new PlayerComponents();
+        return null;
     }
 
     public CheeseWheelMovement GetOtherPlayerWheelMovement(GameObject player)
@@ -130,28 +152,21 @@ public class GameManager : MonoBehaviour
         return GetOtherPlayer(player).WheelMovement;
     }
 
-    public GameObject GetOtherPlayerObject(GameObject player)
+    public Player GetOtherPlayer(GameObject player)
     {
-        return GetOtherPlayer(player).Object;
-    }
-
-    public PlayerComponents GetOtherPlayer(GameObject player)
-    {
-        if (player == null)
+        if (player != null)
         {
-            return new PlayerComponents();
+            if (player == Player1)
+            {
+                return Player2;
+            }
+            if (player == Player2)
+            {
+                return Player1;
+            }
         }
 
-        if (player == Player1.Object)
-        {
-            return Player2;
-        }
-        if (player == Player2.Object)
-        {
-            return Player1;
-        }
-
-        return new PlayerComponents();
+        return null;
     }
 
     #endregion

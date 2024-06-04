@@ -16,7 +16,7 @@ public class UIAbility : AAbility
         else
         {
 
-            Target = GameManager.Instance.GetOtherPlayerObject(user.gameObject)?.GetComponent<AbilityUser>()?.UICanvas;
+            Target = GameManager.Instance.GetOtherPlayerAbilityUser(user)?.UICanvas;
         }
 
         if (Target == null)

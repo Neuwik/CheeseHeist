@@ -93,6 +93,6 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 30747c4de76964b428e190ce1e8b2b11, type: 3}
   Name: Can
   Caster: {fileID: 0}
-  SpawnAsCasterChild: 0
-  SpawnOffsetFromCaster: {x: 0, y: 3, z: -3}
   Duration: -1
+  SpawnParent: 0
+  SpawnOffsetFromWheelCenter: {x: 0, y: 3, z: -5}

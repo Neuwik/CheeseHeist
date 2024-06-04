@@ -41,7 +41,7 @@ public class AbilityUser : MonoBehaviour
         return true;
     }
 
-    private void OnUseAbility()
+    public void OnUseAbility()
     {
         if (!isUsingAbility &&CurrentAbility != null)
         {

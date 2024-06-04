@@ -16,11 +16,11 @@ public class MovementAbility : SpawningAbility
 
         if (UseOnSelf)
         {
-            Target = GameManager.Instance.GetPlayerWheelMovement(Caster.gameObject);
+            Target = GameManager.Instance.GetPlayerWheelMovement(Caster);
         }
         else
         {
-            Target = GameManager.Instance.GetOtherPlayerWheelMovement(Caster.gameObject);
+            Target = GameManager.Instance.GetOtherPlayerWheelMovement(Caster);
         }
 
         if (Target == null)
