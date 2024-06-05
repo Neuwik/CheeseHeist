@@ -390,7 +390,7 @@ MonoBehaviour:
   MinMass: 15
   MaxMass: 30
   rb: {fileID: 3371605757867553758}
-  MassScaleChange: {x: 0.1, y: 0.05, z: 0.1}
+  MassScaleChange: {x: 0.05, y: 0.05, z: 0.05}
   CheeseCollectablePrefab: {fileID: 2599276395809146583, guid: 3e89fa5bd36fd0f4f8099fe10307bd28,
     type: 3}
 --- !u!1 &3844052194627208247

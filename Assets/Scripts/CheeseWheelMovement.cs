@@ -124,19 +124,22 @@ public class CheeseWheelMovement : MonoBehaviour
 
         #endregion
 
-        float angle = Vector3.Angle(transform.up * -1, transform.right);
+        /*
+        //not working
+        float angle = Vector3.Angle(Vector3.up * -1, transform.right);
         //Debug.Log(angle);
         if (angle + AutoResetAngle >= 180 || angle - AutoResetAngle <= 0)
         {
             ResetPosition();
         }
+        */
     }
 
     public void OnMove(InputValue movementValue)
     {
         Vector2 movementVector = movementValue.Get<Vector2>();
 
-        Debug.Log(movementVector);
+        //Debug.Log(movementVector);
 
         // Check if controls are inverted
         if (controlsInverted)
@@ -160,6 +163,7 @@ public class CheeseWheelMovement : MonoBehaviour
     public void ResetPosition()
     {
         rb.Sleep();  // Stop all physics activity
+        RotatingObject.transform.localPosition = Vector3.zero;
         transform.position = ResetPoint.transform.position + ResetPositionOffset;  // Reset position
         transform.LookAt(transform.position + ResetPoint.transform.forward);  // Reset orientation
     }

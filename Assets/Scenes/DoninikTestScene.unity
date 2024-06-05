@@ -907,13 +907,18 @@ PrefabInstance:
     - target: {fileID: 3086091915970717271, guid: a8a38e3f8b230d74ab4b2a19f2e00ded,
         type: 3}
       propertyPath: TestState
-      value: 11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3086091915970717271, guid: a8a38e3f8b230d74ab4b2a19f2e00ded,
         type: 3}
       propertyPath: StartPoint
       value: 
       objectReference: {fileID: 1461953067}
+    - target: {fileID: 3086091915970717271, guid: a8a38e3f8b230d74ab4b2a19f2e00ded,
+        type: 3}
+      propertyPath: LobbyCenter
+      value: 
+      objectReference: {fileID: 7179570360526555774}
     - target: {fileID: 3086091915970717271, guid: a8a38e3f8b230d74ab4b2a19f2e00ded,
         type: 3}
       propertyPath: ResultPanel
@@ -1265,6 +1270,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07a61e0e38c499440bd8cd0673446d3f, type: 3}
+--- !u!4 &7179570360526555774 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4191404083303177044, guid: 07a61e0e38c499440bd8cd0673446d3f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7179570360526555773}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
