@@ -41,7 +41,7 @@ public class SpawningAbility : AAbility
             case ESpawnParent.WheelRotating:
             case ESpawnParent.EnemyWheelRotating:
                 ability = Instantiate(this, target.WheelRotating.transform);
-                ability.transform.position = target.WheelStable.transform.position + SpawnOffset;
+                ability.transform.position = target.WheelRotating.transform.position + SpawnOffset;
                 break;
             case ESpawnParent.WheelStable:
             case ESpawnParent.EnemyWheelStable:
