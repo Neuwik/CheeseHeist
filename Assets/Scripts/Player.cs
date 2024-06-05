@@ -38,12 +38,11 @@ public class Player : MonoBehaviour
             if (_state != value)
             {
                 _state = value;
-                currentICC = InputCameraCanvasMaps.Find(m => m.State == _state);
                 Avatar?.SetInteger("StateEnum", (int)_state);
                 Avatar?.transform.LookAt(GameManager.Instance.Lobby.LobbyCenter);
 
-                OnStateChanged?.Invoke(this, _state);
 
+                currentICC = InputCameraCanvasMaps.Find(m => m.State == _state);
                 if (currentICC != null)
                 {
                     if (currentICC.Camera != null)
@@ -74,6 +73,13 @@ public class Player : MonoBehaviour
                         currentICC.Canvas.worldCamera = PlayerCamera;
                     }
                 }
+                else
+                {
+                    PlayerCamera.enabled = false;
+                    Inputs.SwitchCurrentActionMap(Inputs.defaultActionMap);
+                }
+
+                OnStateChanged?.Invoke(this, _state);
             }
         }
     }

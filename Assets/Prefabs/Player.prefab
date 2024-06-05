@@ -178,14 +178,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputCameraCanvasMaps:
-  - State: 1
-    InputActionMapName: UI
-    Camera: {fileID: 0}
-    Canvas: {fileID: 0}
-  - State: 2
-    InputActionMapName: UI
-    Camera: {fileID: 0}
-    Canvas: {fileID: 0}
   - State: 10
     InputActionMapName: UI
     Camera: {fileID: 7998974238689567145}
@@ -198,18 +190,6 @@ MonoBehaviour:
     InputActionMapName: Player
     Camera: {fileID: 4998682618895973644}
     Canvas: {fileID: 4355317081305538381}
-  - State: 20
-    InputActionMapName: UI
-    Camera: {fileID: 0}
-    Canvas: {fileID: 0}
-  - State: 21
-    InputActionMapName: UI
-    Camera: {fileID: 0}
-    Canvas: {fileID: 0}
-  - State: 22
-    InputActionMapName: UI
-    Camera: {fileID: 0}
-    Canvas: {fileID: 0}
   Inputs: {fileID: 3067688667759963312}
   PlayerCamera: {fileID: 6702746941242637735}
   CheeseWheel: {fileID: 2517769443039538510}
@@ -242,7 +222,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: UI
+  m_DefaultActionMap: 9e84bd88-0764-4681-a5d9-13e739046632
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 6702746941242637735}
 --- !u!1 &6083643144666852911
