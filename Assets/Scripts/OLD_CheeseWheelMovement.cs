@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CheeseWheelMovement : MonoBehaviour
+public class OLD_CheeseWheelMovement : MonoBehaviour
 {
     public Rigidbody rb;
     protected float movementForward;
@@ -66,7 +65,7 @@ public class CheeseWheelMovement : MonoBehaviour
         //transform.Rotate(Down * -1 * movementTurn * TurnSpeed * Time.fixedDeltaTime * honeyModifier);
 
         rb.AddForce(Forward * movementForward * ForwardSpeed * Time.fixedDeltaTime * rb.mass * honeyModifier);
-        
+
 
         //Camera
         WheelCenter.transform.position = transform.position;
@@ -102,7 +101,7 @@ public class CheeseWheelMovement : MonoBehaviour
 
     //    movementForward = movementVector.y;
     //    movementTurn = movementVector.x;
-       
+
     //}
 
 
@@ -159,7 +158,7 @@ public class CheeseWheelMovement : MonoBehaviour
     }
     private IEnumerator CalcSlowness(float timer)
     {
-        if(honeyModifier != 1.0f)
+        if (honeyModifier != 1.0f)
         {
             yield return new WaitUntil(() => honeyModifier == 1.0f);
         }
