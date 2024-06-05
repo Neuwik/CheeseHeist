@@ -355,7 +355,7 @@ MonoBehaviour:
   steeringRangeAtMaxSpeed: 10
   centreOfGravityOffset: -1
   RotatingObject: {fileID: 8005621305696408072}
-  ShowWheels: 1
+  ShowWheels: 0
 --- !u!114 &2786020092601185667
 MonoBehaviour:
   m_ObjectHideFlags: 0

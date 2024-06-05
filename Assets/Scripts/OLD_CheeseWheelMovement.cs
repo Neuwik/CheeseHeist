@@ -34,7 +34,7 @@ public class OLD_CheeseWheelMovement : MonoBehaviour
     {
         if (ResetPoint == null)
         {
-            ResetPoint = GameManager.Instance.StartPoint;
+            ResetPoint = GameManager.Instance.StartPoint.gameObject;
         }
         if (rb == null)
         {

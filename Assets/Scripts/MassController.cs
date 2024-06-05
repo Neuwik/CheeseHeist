@@ -19,9 +19,24 @@ public class MassController : MonoBehaviour
     private bool shielded = false;
     private int shieldCount = 0;
 
-    void Start()
+    private bool _isInitialized = false;
+    private float _rbStartMass = 0;
+    private Vector3 _startScale = Vector3.zero;
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        if (!_isInitialized)
+        {
+            _rbStartMass = rb.mass;
+            _startScale = gameObject.transform.localScale;
+        }
+    }
+
+    void Start()
+    {
+        rb.mass = _rbStartMass;
+        gameObject.transform.localScale = _startScale;
     }
 
     public void ChangeMass(float amount)

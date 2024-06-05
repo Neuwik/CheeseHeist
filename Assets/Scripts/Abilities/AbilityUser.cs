@@ -16,9 +16,10 @@ public class AbilityUser : MonoBehaviour
 
     private bool isUsingAbility = false;
 
-    private void Awake()
+    private void Start()
     {
         AbilityPanel.SetActive(false);
+        CurrentAbility = null;
     }
 
     public bool SetAbility(AAbility NewAbility)

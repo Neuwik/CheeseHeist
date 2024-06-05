@@ -6,8 +6,9 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEngine.CullingGroup;
 
 public enum EGameManagerState { None = 0, WatingRoom = 1, Starting = 2, Racing = 11, Finished = 21 }
 
@@ -39,16 +40,12 @@ public class GameManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(this);
+        SceneManager.sceneLoaded += OnSceneReloaded;
     }
 
     private void Start()
     {
-        WaitingForPlayerPanel.SetActive(false);
-        WaitingForReadyPanel.SetActive(false);
-        StartCountdownPanel.SetActive(false);
-        ResultPanel.SetActive(false);
-        Player1Avatar.gameObject.SetActive(false);
-        Player2Avatar.gameObject.SetActive(false);
+        ReloadReferences();
 
         if (Testing)
         {
@@ -74,6 +71,10 @@ public class GameManager : MonoBehaviour
             else if (_state != value)
             {
                 _state = value;
+                if (_state == EGameManagerState.WatingRoom)
+                {
+                    _deliveredCheeseMass = 0;
+                }
                 OnStateChanged?.Invoke(_state);
             }
         }
@@ -88,25 +89,16 @@ public class GameManager : MonoBehaviour
     public List<AAbility> AbilityPrefabs;
 
     [Header("Level Start Point")]
-    public GameObject StartPoint;
+    public StartPoint StartPoint;
     private float _deliveredCheeseMass;
 
-    [Header("Lobby References")]
-    public Animator Player1Avatar;
-    public Animator Player2Avatar;
-    public Transform LobbyCenter;
-    public GameObject WaitingForPlayerPanel;
-    public GameObject WaitingForReadyPanel;
-    public GameObject StartCountdownPanel;
-    public GameObject ResultPanel;
+    public Lobby Lobby;
 
     [Header("State you want to Test (None => play normaly")]
     public EGameManagerState TestState;
     public bool Testing { get => TestState != EGameManagerState.None; }
 
     private IEnumerator _startCountdown;
-
-    #region Multiplayer
 
     public event Action<EGameManagerState> OnStateChanged;
 
@@ -157,12 +149,12 @@ public class GameManager : MonoBehaviour
             case EGameManagerState.Finished:
                 if (newPlayerState == EPlayerState.Won)
                 {
-                    ResultPanel.GetComponentInChildren<TMP_Text>().text = $"Player{player.Inputs.playerIndex + 1} has won!";
-                    ResultPanel.SetActive(true);
+                    Lobby.ResultPanel.GetComponentInChildren<TMP_Text>().text = $"Player{player.Inputs.playerIndex + 1} has won!";
+                    Lobby.ResultPanel.SetActive(true);
                 }
                 if (newPlayerState == EPlayerState.Waiting)
                 {
-                    WaitingForPlayersToGetReady();
+                    ResetGame();
                 }
                 break;
             case EGameManagerState.None:
@@ -178,16 +170,16 @@ public class GameManager : MonoBehaviour
         {
             playerInput.deviceLostEvent.AddListener(OnPlayerLeft);
             Player1 = playerInput.GetComponent<Player>();
-            Player1.Avatar = Player1Avatar;
-            Player1Avatar.gameObject.SetActive(true);
+            Player1.Avatar = Lobby.Player1Avatar;
+            Lobby.Player1Avatar.gameObject.SetActive(true);
             Player1.OnStateChanged += OnPlayerChangedState;
         }
         else if (Player2 == null)
         {
             playerInput.deviceLostEvent.AddListener(OnPlayerLeft);
             Player2 = playerInput.GetComponent<Player>();
-            Player2.Avatar = Player2Avatar;
-            Player2Avatar.gameObject.SetActive(true);
+            Player2.Avatar = Lobby.Player2Avatar;
+            Lobby.Player2Avatar.gameObject.SetActive(true);
             Player2.OnStateChanged += OnPlayerChangedState;
         }
         else
@@ -206,6 +198,7 @@ public class GameManager : MonoBehaviour
         // never gets triggered, not even with playerInput.deviceLostEvent.AddListener(OnPlayerLeft);
         Debug.Log($"Player{playerInput.playerIndex + 1} left.");
 
+        /*
         Player player = null;
         Animator avatar = null;
 
@@ -247,41 +240,72 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+        */
     }
 
     public void WaitingForPlayersToJoin()
     {
         State = EGameManagerState.WatingRoom;
-        StartCountdownPanel.SetActive(false);
-        WaitingForPlayerPanel.SetActive(true);
-        WaitingForReadyPanel.SetActive(false);
+        Lobby.StartCountdownPanel.SetActive(false);
+        Lobby.WaitingForPlayerPanel.SetActive(true);
+        Lobby.WaitingForReadyPanel.SetActive(false);
     }
 
     public void WaitingForPlayersToGetReady()
     {
         State = EGameManagerState.WatingRoom;
-        ResultPanel.SetActive(false);
-        StartCountdownPanel.SetActive(false);
-        WaitingForPlayerPanel.SetActive(false);
-        WaitingForReadyPanel.SetActive(true);
+        Lobby.ResultPanel.SetActive(false);
+        Lobby.StartCountdownPanel.SetActive(false);
+        Lobby.WaitingForPlayerPanel.SetActive(false);
+        Lobby.WaitingForReadyPanel.SetActive(true);
+    }
+
+    public void ReloadReferences()
+    {
+        OnStateChanged = null;
+
+        //Debug.Log("Reload References");
+        StartPoint = FindAnyObjectByType<StartPoint>();
+
+        Lobby = FindAnyObjectByType<Lobby>();
+        Lobby.WaitingForPlayerPanel.SetActive(false);
+        Lobby.WaitingForReadyPanel.SetActive(false);
+        Lobby.StartCountdownPanel.SetActive(false);
+        Lobby.ResultPanel.SetActive(false);
+        Lobby.Player1Avatar.gameObject.SetActive(false);
+        Lobby.Player2Avatar.gameObject.SetActive(false);
     }
 
     public IEnumerator StartRace()
     {
         State = EGameManagerState.Starting;
-        WaitingForReadyPanel.SetActive(false);
-        StartCountdownPanel.SetActive(true);
+        Lobby.WaitingForReadyPanel.SetActive(false);
+        Lobby.StartCountdownPanel.SetActive(true);
         for (int i = StartCountdownLength; i > 0; i--)
         {
-            StartCountdownPanel.GetComponentInChildren<TMP_Text>().text = $"{i}";
+            Lobby.StartCountdownPanel.GetComponentInChildren<TMP_Text>().text = $"{i}";
             yield return new WaitForSeconds(1);
         }
-        StartCountdownPanel.GetComponentInChildren<TMP_Text>().text = "Go!";
+        Lobby.StartCountdownPanel.GetComponentInChildren<TMP_Text>().text = "Go!";
         yield return new WaitForSeconds(1);
         State = EGameManagerState.Racing;
-        StartCountdownPanel.SetActive(false);
+        Lobby.StartCountdownPanel.SetActive(false);
     }
 
+    private void ResetGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        
+    }
+
+    private void OnSceneReloaded(Scene scene, LoadSceneMode mode)
+    {
+        ReloadReferences();
+        WaitingForPlayersToGetReady();
+    }
+
+
+    #region Multiplayer
     public CheeseWheelMovement GetPlayerWheelMovement(AbilityUser playerAbilityUser)
     {
         if (playerAbilityUser != null)

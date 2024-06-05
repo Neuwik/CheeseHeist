@@ -192,7 +192,7 @@ MonoBehaviour:
     Canvas: {fileID: 0}
   - State: 11
     InputActionMapName: UI
-    Camera: {fileID: 7998974238689567145}
+    Camera: {fileID: 0}
     Canvas: {fileID: 0}
   - State: 12
     InputActionMapName: Player

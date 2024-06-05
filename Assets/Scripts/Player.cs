@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
-using static UnityEditorInternal.VersionControl.ListControl;
-using static UnityEngine.CullingGroup;
 
 public enum EPlayerState { None = 0, Waiting = 1, Ready = 2, Racing = 10, UI = 11, Wheel = 12, Finished = 20, Won = 21, Lost = 22 }
 
@@ -42,7 +40,7 @@ public class Player : MonoBehaviour
                 _state = value;
                 currentICC = InputCameraCanvasMaps.Find(m => m.State == _state);
                 Avatar?.SetInteger("StateEnum", (int)_state);
-                Avatar?.transform.LookAt(GameManager.Instance.LobbyCenter);
+                Avatar?.transform.LookAt(GameManager.Instance.Lobby.LobbyCenter);
 
                 OnStateChanged?.Invoke(this, _state);
 
@@ -118,7 +116,7 @@ public class Player : MonoBehaviour
             WheelMovement.SetPlayerSpecificResetPositionOffset(Vector3.right * 2 * (Inputs.playerIndex + 1));
         }
 
-        WheelMovement.SetResetPoint(GameManager.Instance.StartPoint);
+        WheelMovement.SetResetPoint(GameManager.Instance.StartPoint.gameObject);
         CheeseWheel.gameObject.SetActive(true);
         WheelMovement.ResetPosition();
 
@@ -132,19 +130,22 @@ public class Player : MonoBehaviour
             case EGameManagerState.WatingRoom:
                 if (State != EPlayerState.Waiting && State != EPlayerState.Ready)
                 {
+                    Points = 0;
                     State = EPlayerState.Waiting;
                 }
                 break;
             case EGameManagerState.Racing:
                 if (State != EPlayerState.Wheel && State != EPlayerState.Racing && State != EPlayerState.UI)
                 {
-                    State = EPlayerState.Racing;
-                    SpawnCheeseWheel();
+                    ResetCheeseWheelAndChooseNext();
+                    Points = 0;
+                    State = EPlayerState.UI;
                 }
                 break;
             case EGameManagerState.Finished:
                 if (State != EPlayerState.Finished && State != EPlayerState.Won && State != EPlayerState.Lost)
                 {
+                    ResetCheeseWheel();
                     if (GameManager.Instance.HaveIWon(this))
                     {
                         State = EPlayerState.Won;
@@ -170,6 +171,11 @@ public class Player : MonoBehaviour
 
     public void OnSubmit()
     {
+        if (State == EPlayerState.UI)
+        {
+            SpawnCheeseWheel();
+            return;
+        }
         if (State == EPlayerState.Waiting)
         {
             State = EPlayerState.Ready;
@@ -206,6 +212,16 @@ public class Player : MonoBehaviour
         {
             WheelControllsMapper.OnResetPosition();
         }
+    }
+
+    public void ResetCheeseWheelAndChooseNext()
+    {
+        ResetCheeseWheel();
+        State = EPlayerState.UI;
+    }
+    public void ResetCheeseWheel()
+    {
+        CheeseWheel.gameObject.SetActive(false);
     }
 
     public void OnUseAbility()

@@ -41,7 +41,7 @@ public class CheeseWheelMovement : MonoBehaviour
     {
         if (ResetPoint == null)
         {
-            ResetPoint = GameManager.Instance.StartPoint;
+            ResetPoint = GameManager.Instance.StartPoint.gameObject;
         }
         if (rb == null)
         {
@@ -114,13 +114,13 @@ public class CheeseWheelMovement : MonoBehaviour
         }
 
         //Rotate Cheese Wheel Mesh
-        Vector3 pos = transform.position;
-        Quaternion wheelRot = transform.rotation;
+        Vector3 pos = _anyBackWheel.transform.localPosition;
+        Quaternion wheelRot = _anyBackWheel.transform.localRotation;
 
+        //_anyBackWheel.GetWorldPose(out pos, out wheelRot);
 
-        _anyBackWheel.GetWorldPose(out pos, out wheelRot);
-        RotatingObject.position = new Vector3(RotatingObject.position.x, pos.y, RotatingObject.position.z);
-        RotatingObject.rotation = wheelRot;
+        RotatingObject.localPosition = new Vector3(RotatingObject.localPosition.x, pos.y, RotatingObject.localPosition.z);
+        RotatingObject.localRotation = wheelRot;
 
         #endregion
 

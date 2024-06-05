@@ -23,7 +23,7 @@ using UnityEngine;
 
 public class FinishLine : MonoBehaviour
 {
-    public static bool isFinished = false;  // Track if the finish line has been crossed
+    //public static bool isFinished = false;  // Track if the finish line has been crossed
     // This function is called when another collider enters the trigger collider attached to this GameObject
     private void OnTriggerEnter(Collider other)
     {
@@ -54,9 +54,9 @@ public class FinishLine : MonoBehaviour
             if (player != null && mass != null)
             {
                 GameManager.Instance.DeliveredCheese(player, mass);
+                if (GameManager.Instance.State == EGameManagerState.Racing)
+                    player.ResetCheeseWheelAndChooseNext();
             }
-
-            wheel.ResetPosition();
         }
     }
 }
