@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.Windows;
+using static UnityEditorInternal.VersionControl.ListControl;
 using static UnityEngine.CullingGroup;
 
 public enum EPlayerState { None = 0, Waiting = 1, Ready = 2, Racing = 10, UI = 11, Wheel = 12, Finished = 20, Won = 21, Lost = 22 }
@@ -101,8 +102,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        State = EPlayerState.Waiting;
         GameManager.Instance.OnStateChanged += OnGameManagerStateChanged;
+        State = EPlayerState.Waiting;
     }
 
     public void SpawnCheeseWheel()
@@ -128,20 +129,29 @@ public class Player : MonoBehaviour
         switch (newGMState)
         {
             case EGameManagerState.WatingRoom:
-                State = EPlayerState.Waiting;
+                if (State != EPlayerState.Waiting && State != EPlayerState.Ready)
+                {
+                    State = EPlayerState.Waiting;
+                }
                 break;
             case EGameManagerState.Racing:
-                State = EPlayerState.Racing;
-                SpawnCheeseWheel();
+                if (State != EPlayerState.Wheel && State != EPlayerState.Racing && State != EPlayerState.UI)
+                {
+                    State = EPlayerState.Racing;
+                    SpawnCheeseWheel();
+                }
                 break;
             case EGameManagerState.Finished:
-                if (GameManager.Instance.HaveIWon(this))
+                if (State != EPlayerState.Finished && State != EPlayerState.Won && State != EPlayerState.Lost)
                 {
-                    State = EPlayerState.Won;
-                }
-                else
-                {
-                    State = EPlayerState.Lost;
+                    if (GameManager.Instance.HaveIWon(this))
+                    {
+                        State = EPlayerState.Won;
+                    }
+                    else
+                    {
+                        State = EPlayerState.Lost;
+                    }
                 }
                 break;
             case EGameManagerState.None:

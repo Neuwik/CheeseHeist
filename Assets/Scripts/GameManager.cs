@@ -49,7 +49,15 @@ public class GameManager : MonoBehaviour
         ResultPanel.SetActive(false);
         Player1Avatar.gameObject.SetActive(false);
         Player2Avatar.gameObject.SetActive(false);
-        WaitingForPlayersToJoin();
+
+        if (Testing)
+        {
+            State = TestState;
+        }
+        else
+        {
+            WaitingForPlayersToJoin();
+        }
     }
 
     private EGameManagerState _state;
@@ -58,13 +66,19 @@ public class GameManager : MonoBehaviour
         get { return _state; }
         set
         {
-            if (_state != value)
+            if (Testing)
+            {
+                _state = TestState;
+                OnStateChanged?.Invoke(_state);
+            }
+            else if (_state != value)
             {
                 _state = value;
                 OnStateChanged?.Invoke(_state);
             }
         }
     }
+    
     public float CheeseMassNeeded;
     public int StartCountdownLength;
     [HideInInspector]
@@ -85,6 +99,10 @@ public class GameManager : MonoBehaviour
     public GameObject StartCountdownPanel;
     public GameObject ResultPanel;
 
+    [Header("State you want to Test (None => play normaly")]
+    public EGameManagerState TestState;
+    public bool Testing { get => TestState != EGameManagerState.None; }
+
     private IEnumerator _startCountdown;
 
     #region Multiplayer
@@ -93,6 +111,11 @@ public class GameManager : MonoBehaviour
 
     public void OnPlayerChangedState(Player player, EPlayerState newPlayerState)
     {
+        if (Testing)
+        {
+            State = TestState;
+            return;
+        }
         switch (State)
         {
             case EGameManagerState.WatingRoom:
@@ -169,6 +192,11 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogWarning("Another Player tried to connect.");
+        }
+
+        if(Testing)
+        {
+            State = TestState;
         }
     }
 
