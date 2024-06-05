@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,26 +11,31 @@ public class CheeseWheelMovement : MonoBehaviour
     protected float movementForward;
     protected float movementTurn;
     protected float honeyModifier = 1;
-
-    public float ForwardSpeed = 1;
-    public float TurnSpeed = 1;
-    public float SlownessEffect = 1;
-
-    public LayerMask GroundLayer;
-    public Vector3 Down = Vector3.down;
-    public Vector3 Forward = Vector3.forward;
-    public GameObject WheelCenter;
-
+    private bool controlsInverted = false;
 
     protected GameObject ResetPoint;
     public void SetResetPoint(GameObject reset) { ResetPoint = reset; }
+
     private Vector3 PlayerSpecificResetPositionOffset = Vector3.zero;
     public void SetPlayerSpecificResetPositionOffset(Vector3 offset) { PlayerSpecificResetPositionOffset = offset; }
-    public Vector3 ResetPositionOffset { get { return PlayerSpecificResetPositionOffset + Vector3.up * 2; } }
+    public Vector3 ResetPositionOffset { get { return PlayerSpecificResetPositionOffset + Vector3.up * ResetPositionVerticalOffset; } }
+    public float ResetPositionVerticalOffset = 2;
     public float AutoResetAngle = 45;
-    public float AutoAdjustAngle = 80;
 
-    private bool controlsInverted = false;
+    #region Car Script Copy
+    [Header("From Car")]
+    public float motorTorque = 2000;
+    public float brakeTorque = 2000;
+    public float maxSpeed = 20;
+    public float steeringRange = 30;
+    public float steeringRangeAtMaxSpeed = 10;
+    public float centreOfGravityOffset = -1f;
+
+    private List<CarWheel> _wheels;
+    public Transform RotatingObject;
+    public bool ShowWheels = false;
+    private WheelCollider _anyBackWheel;
+    #endregion
 
     protected void Start()
     {
@@ -41,70 +47,90 @@ public class CheeseWheelMovement : MonoBehaviour
         {
             rb = GetComponent<Rigidbody>();
         }
+
+        #region Car Script Copy
+        // Adjust center of mass vertically, to help prevent the car from rolling
+        rb.centerOfMass += Vector3.up * centreOfGravityOffset;
+
+        // Find all child GameObjects that have the WheelControl script attached
+        _wheels = GetComponentsInChildren<CarWheel>().ToList();
+        _wheels.ForEach(w => w.WheelModel.gameObject.SetActive(ShowWheels));
+        _anyBackWheel = _wheels.First(w => !w.steerable).WheelCollider;
+        #endregion
     }
 
     protected void FixedUpdate()
     {
-        // Apply control inversion if active
-        // float actualMovementTurn = controlsInverted ? -movementTurn : movementTurn;
-        // float actualMovementForward = controlsInverted ? -movementForward : movementForward;
+        movementTurn *= honeyModifier;
+        movementForward *= honeyModifier;
 
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, GroundLayer.value))
+        #region Car Script Copy
+
+        // Calculate current speed in relation to the forward direction of the car
+        // (this returns a negative number when traveling backwards)
+        float forwardSpeed = Vector3.Dot(transform.forward, rb.velocity);
+
+
+        // Calculate how close the car is to top speed
+        // as a number from zero to one
+        float speedFactor = Mathf.InverseLerp(0, maxSpeed, forwardSpeed);
+
+        // Use that to calculate how much torque is available 
+        // (zero torque at top speed)
+        float currentMotorTorque = Mathf.Lerp(motorTorque, 0, speedFactor);
+
+        // …and to calculate how much to steer 
+        // (the car steers more gently at top speed)
+        float currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);
+
+        // Check whether the user input is in the same direction 
+        // as the car's velocity
+        bool isAccelerating = Mathf.Sign(movementForward) == Mathf.Sign(forwardSpeed);
+
+        foreach (var wheel in _wheels)
         {
-            Down = hit.transform.up * -1;
+            // Apply steering to Wheel colliders that have "Steerable" enabled
+            if (wheel.steerable)
+            {
+                wheel.WheelCollider.steerAngle = movementTurn * currentSteerRange;
+            }
+
+            if (isAccelerating)
+            {
+                // Apply torque to Wheel colliders that have "Motorized" enabled
+                if (wheel.motorized)
+                {
+                    wheel.WheelCollider.motorTorque = movementForward * currentMotorTorque;
+                }
+                wheel.WheelCollider.brakeTorque = 0;
+            }
+            else
+            {
+                // If the user is trying to go in the opposite direction
+                // apply brakes to all wheels
+                wheel.WheelCollider.brakeTorque = Mathf.Abs(movementForward) * brakeTorque;
+                wheel.WheelCollider.motorTorque = 0;
+            }
         }
-        // Debug.DrawRay(transform.position, Down, Color.yellow, Time.fixedDeltaTime);
 
-        Forward = Vector3.Cross(transform.up, Down).normalized;
-        // Debug.DrawRay(transform.position, Forward, Color.blue, Time.fixedDeltaTime);
-
-        //OLD Rotation
-        //Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, movementTurn * TurnSpeed * Time.fixedDeltaTime * honeyModifier, 0));
+        //Rotate Cheese Wheel Mesh
+        Vector3 pos = transform.position;
+        Quaternion wheelRot = transform.rotation;
 
 
-        //transform.Rotate(Down * -1 * movementTurn * TurnSpeed * Time.fixedDeltaTime * honeyModifier);
+        _anyBackWheel.GetWorldPose(out pos, out wheelRot);
+        RotatingObject.position = new Vector3(RotatingObject.position.x, pos.y, RotatingObject.position.z);
+        RotatingObject.rotation = wheelRot;
 
-        rb.AddForce(Forward * movementForward * ForwardSpeed * Time.fixedDeltaTime * rb.mass * honeyModifier);
-        
+        #endregion
 
-        //Camera
-        WheelCenter.transform.position = transform.position;
-        WheelCenter.transform.LookAt(transform.position + Forward);
-
-        float angle = Vector3.Angle(Down, transform.up);
+        float angle = Vector3.Angle(transform.up * -1, transform.right);
         //Debug.Log(angle);
         if (angle + AutoResetAngle >= 180 || angle - AutoResetAngle <= 0)
         {
             ResetPosition();
         }
-
-
-        Vector3 v3RotationStandup = Vector3.zero;
-        if (angle + AutoAdjustAngle >= 180 || angle - AutoAdjustAngle <= 0)
-        {
-            v3RotationStandup = Forward * (angle - 90) * TurnSpeed * Time.fixedDeltaTime * honeyModifier;
-        }
-
-        Vector3 v3RotationInputs = Down * -1 * movementTurn * TurnSpeed * Time.fixedDeltaTime * honeyModifier;
-
-        Vector3 v3Rotation = v3RotationStandup + v3RotationInputs * 2;
-        v3Rotation.Normalize();
-
-        Quaternion deltaRotation = Quaternion.Euler(v3Rotation);
-
-        rb.MoveRotation(deltaRotation * transform.rotation);
     }
-
-    //private void OnMove(InputValue movementValue)
-    //{
-    //    Vector2 movementVector = movementValue.Get<Vector2>();
-
-    //    movementForward = movementVector.y;
-    //    movementTurn = movementVector.x;
-       
-    //}
-
 
     public void OnMove(InputValue movementValue)
     {
@@ -136,7 +162,6 @@ public class CheeseWheelMovement : MonoBehaviour
         rb.Sleep();  // Stop all physics activity
         transform.position = ResetPoint.transform.position + ResetPositionOffset;  // Reset position
         transform.LookAt(transform.position + ResetPoint.transform.forward);  // Reset orientation
-        transform.Rotate(transform.forward, 90);  // Correct rotation to original setup
     }
 
 
@@ -165,15 +190,15 @@ public class CheeseWheelMovement : MonoBehaviour
         }
         rb.drag += 1.5f;
         honeyModifier = 0.70f;
-        Debug.Log($"vorm wait");
+        //Debug.Log($"vorm wait");
         yield return new WaitForSeconds(timer);
-        Debug.Log($"nach wait");
+        //Debug.Log($"nach wait");
         honeyModifier = 1.0f;
         rb.drag -= 1.5f;
     }
 
     public void Jump(float power)
     {
-        rb.AddForce(Down * -1 * power * rb.mass, ForceMode.Impulse);
+        rb.AddForce(transform.up * power * rb.mass, ForceMode.Impulse);
     }
 }

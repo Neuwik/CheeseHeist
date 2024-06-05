@@ -5,15 +5,16 @@ using UnityEngine;
 
 public class MassController : MonoBehaviour
 {
+    public float MassSteps = 100;
     public float MinMass = 15;
     public float MaxMass = 30;
-    private Rigidbody rb;
-    public float CurrentMass { get => rb.mass; }
+    public Rigidbody rb;
+    public float CurrentMass { get => rb.mass / MassSteps; }
     [SerializeField]
     private Vector3 MassScaleChange = new Vector3(0.2f, 0.1f, 0.2f);
 
     public CheeseCollectable CheeseCollectablePrefab;
-    public GameObject WheelCenter;
+    public GameObject WheelCenter { get => gameObject; }
 
     private bool shielded = false;
     private int shieldCount = 0;
@@ -36,11 +37,11 @@ public class MassController : MonoBehaviour
     }
     private void GainMass(float amount)
     {
-        if (rb.mass + amount > MaxMass)
+        if (CurrentMass + amount > MaxMass)
         {
-            amount = MaxMass - rb.mass;
+            amount = MaxMass - CurrentMass;
         }
-        rb.mass += amount;
+        rb.mass += (amount * MassSteps);
         gameObject.transform.localScale += (MassScaleChange * amount);
     }
     private void LooseMass(float amount)
@@ -50,11 +51,11 @@ public class MassController : MonoBehaviour
             return;
         }
 
-        if (rb.mass - amount < MinMass)
+        if (CurrentMass - amount < MinMass)
         {
-            amount = rb.mass - MinMass;
+            amount = CurrentMass - MinMass;
         }
-        rb.mass -= amount;
+        rb.mass -= (amount * MassSteps);
         gameObject.transform.localScale -= (MassScaleChange * amount);
         StartCoroutine(DropCheeseCollectables(amount));
     }

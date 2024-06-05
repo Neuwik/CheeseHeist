@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
-public enum ESpawnParent { None = 0, Wheel = 1, WheelCenter = 2, EnemyWheel = 3, EnemyWheelCenter = 4 };
+public enum ESpawnParent { None = 0, WheelRotating = 1, WheelStable = 2, EnemyWheelRotating = 3, EnemyWheelStable = 4 };
 public class SpawningAbility : AAbility
 {
     public ESpawnParent SpawnParent;
@@ -16,13 +16,13 @@ public class SpawningAbility : AAbility
         Vector3 SpawnOffset = Vector3.zero;
         switch (SpawnParent)
         {
-            case ESpawnParent.EnemyWheel:
-            case ESpawnParent.EnemyWheelCenter:
+            case ESpawnParent.EnemyWheelRotating:
+            case ESpawnParent.EnemyWheelStable:
                 target = GameManager.Instance.GetOtherPlayerAbilityUser(user);
                 break;
             case ESpawnParent.None:
-            case ESpawnParent.Wheel:
-            case ESpawnParent.WheelCenter:
+            case ESpawnParent.WheelRotating:
+            case ESpawnParent.WheelStable:
             default:
                 target = user;
                 break;
@@ -31,26 +31,26 @@ public class SpawningAbility : AAbility
         {
             return false;
         }
-        SpawnOffset += target.WheelCenter.transform.right * SpawnOffsetFromWheelCenter.x;
-        SpawnOffset += target.WheelCenter.transform.up * SpawnOffsetFromWheelCenter.y;
-        SpawnOffset += target.WheelCenter.transform.forward * SpawnOffsetFromWheelCenter.z;
+        SpawnOffset += target.WheelStable.transform.right * SpawnOffsetFromWheelCenter.x;
+        SpawnOffset += target.WheelStable.transform.up * SpawnOffsetFromWheelCenter.y;
+        SpawnOffset += target.WheelStable.transform.forward * SpawnOffsetFromWheelCenter.z;
 
         AAbility ability;
         switch (SpawnParent)
         {
-            case ESpawnParent.Wheel:
-            case ESpawnParent.EnemyWheel:
-                ability = Instantiate(this, target.transform);
-                ability.transform.position = target.WheelCenter.transform.position + SpawnOffset;
+            case ESpawnParent.WheelRotating:
+            case ESpawnParent.EnemyWheelRotating:
+                ability = Instantiate(this, target.WheelRotating.transform);
+                ability.transform.position = target.WheelStable.transform.position + SpawnOffset;
                 break;
-            case ESpawnParent.WheelCenter:
-            case ESpawnParent.EnemyWheelCenter:
-                ability = Instantiate(this, target.WheelCenter.transform);
-                ability.transform.position = target.WheelCenter.transform.position + SpawnOffset;
+            case ESpawnParent.WheelStable:
+            case ESpawnParent.EnemyWheelStable:
+                ability = Instantiate(this, target.WheelStable.transform);
+                ability.transform.position = target.WheelStable.transform.position + SpawnOffset;
                 break;
             case ESpawnParent.None:
             default:
-                ability = Instantiate(this, target.WheelCenter.transform.position + SpawnOffset, user.WheelCenter.transform.rotation);
+                ability = Instantiate(this, target.WheelStable.transform.position + SpawnOffset, user.WheelStable.transform.rotation);
                 break;
         }
 
