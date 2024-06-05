@@ -10,8 +10,9 @@ public class AbilityUser : MonoBehaviour
     public GameObject AbilityPanel;
     public Image img_Icon;
     public TMP_Text txt_Name;
-    public GameObject WheelCenter;
     public Canvas UICanvas;
+    public GameObject WheelRotating;
+    public GameObject WheelStable;
 
     private bool isUsingAbility = false;
 

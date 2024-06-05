@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
     [Header("Lobby References")]
     public Animator Player1Avatar;
     public Animator Player2Avatar;
+    public Transform LobbyCenter;
     public GameObject WaitingForPlayerPanel;
     public GameObject WaitingForReadyPanel;
     public GameObject StartCountdownPanel;

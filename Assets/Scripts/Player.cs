@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
                 _state = value;
                 currentICC = InputCameraCanvasMaps.Find(m => m.State == _state);
                 Avatar?.SetInteger("StateEnum", (int)_state);
+                Avatar?.transform.LookAt(GameManager.Instance.LobbyCenter);
 
                 OnStateChanged?.Invoke(this, _state);
 
