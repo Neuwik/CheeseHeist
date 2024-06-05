@@ -7,9 +7,9 @@ using UnityEngine.InputSystem;
 public class CheeseWheelMovement : MonoBehaviour
 {
     public Rigidbody rb;
-    private float movementForward;
-    private float movementTurn;
-    private float honeyModifier = 1;
+    protected float movementForward;
+    protected float movementTurn;
+    protected float honeyModifier = 1;
 
     public float ForwardSpeed = 1;
     public float TurnSpeed = 1;
@@ -109,6 +109,8 @@ public class CheeseWheelMovement : MonoBehaviour
     public void OnMove(InputValue movementValue)
     {
         Vector2 movementVector = movementValue.Get<Vector2>();
+
+        Debug.Log(movementVector);
 
         // Check if controls are inverted
         if (controlsInverted)
