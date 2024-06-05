@@ -698,7 +698,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7897043525069609329}
-  m_Material: {fileID: 13400000, guid: b6e9c818d4b1fbe4381ca9230b8af785, type: 2}
+  m_Material: {fileID: 13400000, guid: 5552111ec1f92dd4389bd4ef31197a39, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -763,6 +763,7 @@ MonoBehaviour:
   Forward: {x: 0, y: 0, z: 0}
   WheelCenter: {fileID: 136800063511329479}
   AutoResetAngle: 45
+  AutoAdjustAngle: 80
 --- !u!114 &7380567481797873925
 MonoBehaviour:
   m_ObjectHideFlags: 0

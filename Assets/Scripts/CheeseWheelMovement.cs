@@ -26,7 +26,8 @@ public class CheeseWheelMovement : MonoBehaviour
     private Vector3 PlayerSpecificResetPositionOffset = Vector3.zero;
     public void SetPlayerSpecificResetPositionOffset(Vector3 offset) { PlayerSpecificResetPositionOffset = offset; }
     public Vector3 ResetPositionOffset { get { return PlayerSpecificResetPositionOffset + Vector3.up * 2; } }
-    public float AutoResetAngle = 10;
+    public float AutoResetAngle = 45;
+    public float AutoAdjustAngle = 80;
 
     private bool controlsInverted = false;
 
@@ -48,20 +49,24 @@ public class CheeseWheelMovement : MonoBehaviour
         // float actualMovementTurn = controlsInverted ? -movementTurn : movementTurn;
         // float actualMovementForward = controlsInverted ? -movementForward : movementForward;
 
-        Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, movementTurn * TurnSpeed * Time.fixedDeltaTime * honeyModifier, 0 ));
-        rb.MoveRotation(deltaRotation * transform.rotation);
-
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, Mathf.Infinity, GroundLayer.value))
         {
             Down = hit.transform.up * -1;
         }
-        Debug.DrawRay(transform.position, Down, Color.yellow, Time.fixedDeltaTime);
+        // Debug.DrawRay(transform.position, Down, Color.yellow, Time.fixedDeltaTime);
 
         Forward = Vector3.Cross(transform.up, Down).normalized;
         // Debug.DrawRay(transform.position, Forward, Color.blue, Time.fixedDeltaTime);
 
+        //OLD Rotation
+        //Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, movementTurn * TurnSpeed * Time.fixedDeltaTime * honeyModifier, 0));
+
+
+        //transform.Rotate(Down * -1 * movementTurn * TurnSpeed * Time.fixedDeltaTime * honeyModifier);
+
         rb.AddForce(Forward * movementForward * ForwardSpeed * Time.fixedDeltaTime * rb.mass * honeyModifier);
+        
 
         //Camera
         WheelCenter.transform.position = transform.position;
@@ -73,6 +78,22 @@ public class CheeseWheelMovement : MonoBehaviour
         {
             ResetPosition();
         }
+
+
+        Vector3 v3RotationStandup = Vector3.zero;
+        if (angle + AutoAdjustAngle >= 180 || angle - AutoAdjustAngle <= 0)
+        {
+            v3RotationStandup = Forward * (angle - 90) * TurnSpeed * Time.fixedDeltaTime * honeyModifier;
+        }
+
+        Vector3 v3RotationInputs = Down * -1 * movementTurn * TurnSpeed * Time.fixedDeltaTime * honeyModifier;
+
+        Vector3 v3Rotation = v3RotationStandup + v3RotationInputs * 2;
+        v3Rotation.Normalize();
+
+        Quaternion deltaRotation = Quaternion.Euler(v3Rotation);
+
+        rb.MoveRotation(deltaRotation * transform.rotation);
     }
 
     //private void OnMove(InputValue movementValue)
