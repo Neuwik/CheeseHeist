@@ -93,9 +93,13 @@ MonoBehaviour:
   StartPoint: {fileID: 0}
   CheeseMassNeeded: 50
   Player1: {fileID: 0}
+  Player1Avatar: {fileID: 0}
   Player2: {fileID: 0}
+  Player2Avatar: {fileID: 0}
+  StartCountdownLength: 5
   WaitingForPlayerPanel: {fileID: 0}
   WaitingForReadyPanel: {fileID: 0}
+  StartCountdownPanel: {fileID: 0}
   ResultPanel: {fileID: 0}
   AbilityPrefabs:
   - {fileID: -7440494577150526630, guid: 9174164d575619c41b85e1038ebb6c89, type: 3}
