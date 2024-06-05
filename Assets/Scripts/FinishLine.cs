@@ -53,7 +53,7 @@ public class FinishLine : MonoBehaviour
             Player player = GameManager.Instance.GetPlayer(wheel);
             if (player != null && mass != null)
             {
-                GameManager.Instance.DeliveredCheese(player, mass);
+                GameManager.Instance.DeliveredCheese(player, mass.CheeseMass);
                 if (GameManager.Instance.State == EGameManagerState.Racing)
                     player.ResetCheeseWheelAndChooseNext();
             }

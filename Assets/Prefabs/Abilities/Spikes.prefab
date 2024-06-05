@@ -238,7 +238,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e66fb45e64c6bc748ae0d3e7903dbba1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 1
+  MassDamage: 1
+  StatGain: 0
+  Stat: 0
   Uses: -1
   TickRate: 1
 --- !u!114 &1453252103148769523

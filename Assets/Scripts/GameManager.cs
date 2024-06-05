@@ -430,10 +430,10 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public void DeliveredCheese(Player player, MassController cheese)
+    public void DeliveredCheese(Player player, CheeseMass cheese)
     {
         // Calculate cheese worth
-        float cheeseWorth = cheese.CurrentMass;
+        float cheeseWorth = cheese.Mass;
 
         if (cheeseWorth + _deliveredCheeseMass > CheeseMassNeeded)
         {

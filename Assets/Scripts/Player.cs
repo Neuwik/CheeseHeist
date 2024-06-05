@@ -105,9 +105,14 @@ public class Player : MonoBehaviour
 
     public float Points { get; private set; }
 
+    private CheeseMass SelectedCheeseMass = new CheeseMass(20, new Vector3(0.1f, 0, 0.3f));
+    private MassController _massController;
+    public CheeseMass CurrentCheeseMass { get { return _massController.CheeseMass; } }
+
     private void Start()
     {
         GameManager.Instance.OnStateChanged += OnGameManagerStateChanged;
+        _massController = WheelMovement.GetComponent<MassController>();
         State = EPlayerState.Waiting;
     }
 
@@ -123,6 +128,9 @@ public class Player : MonoBehaviour
         }
 
         WheelMovement.SetResetPoint(GameManager.Instance.StartPoint.gameObject);
+
+        _massController.CheeseMass = SelectedCheeseMass;
+
         CheeseWheel.gameObject.SetActive(true);
         WheelMovement.ResetPosition();
 
@@ -225,6 +233,7 @@ public class Player : MonoBehaviour
         ResetCheeseWheel();
         State = EPlayerState.UI;
     }
+
     public void ResetCheeseWheel()
     {
         CheeseWheel.gameObject.SetActive(false);

@@ -6,7 +6,9 @@ using static UnityEngine.GraphicsBuffer;
 
 public class DamagingObject : MonoBehaviour
 {
-    public float Damage;
+    public float MassDamage;
+    public float StatGain;
+    public ECheeseMassStats Stat;
     public int Uses;
     [Min(0.1f)]
     public float TickRate; //Ticks per secons
@@ -29,11 +31,12 @@ public class DamagingObject : MonoBehaviour
         {
             if (targets.TryAdd(wheel, true))
             {
-                Debug.Log(wheel.name + " entered " + name);
+                Debug.Log(wheel.name + " entered " + name + " for the first time");
                 StartCoroutine(DamageTarget(wheel));
             }
             else
             {
+                Debug.Log(wheel.name + " entered " + name + " again");
                 targets[wheel] = true;
             }
         }
@@ -56,7 +59,8 @@ public class DamagingObject : MonoBehaviour
         while (Uses != 0)
         {
             yield return new WaitUntil(() => targets[target]);
-            target.ChangeMass(Damage * -1);
+            target.LooseMass(MassDamage);
+            target.GainStats(Stat, StatGain);
             if (Uses > 0)
             {
                 Uses--;

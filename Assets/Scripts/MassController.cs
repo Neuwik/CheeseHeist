@@ -5,11 +5,30 @@ using UnityEngine;
 
 public class MassController : MonoBehaviour
 {
-    public float MassSteps = 100;
+    public float RBMassPerMass = 100;
     public float MinMass = 15;
     public float MaxMass = 30;
+    private CheeseMass _cheeseMass;
+    public CheeseMass CheeseMass
+    {
+        get { return _cheeseMass; }
+        set
+        {
+            CheeseMass newCheeseMass = value;
+            if (newCheeseMass.Mass < MinMass)
+            {
+                newCheeseMass.GainMassWithSameStats(MinMass - newCheeseMass.Mass);
+            }
+            if (newCheeseMass.Mass > MaxMass)
+            {
+                newCheeseMass.LooseMass(newCheeseMass.Mass - MaxMass);
+            }
+            _cheeseMass = newCheeseMass;
+            rb.mass = _cheeseMass.Mass * RBMassPerMass;
+        }
+    }
+
     public Rigidbody rb;
-    public float CurrentMass { get => rb.mass / MassSteps; }
     [SerializeField]
     private Vector3 MassScaleChange = new Vector3(0.2f, 0.1f, 0.2f);
 
@@ -38,40 +57,42 @@ public class MassController : MonoBehaviour
         rb.mass = _rbStartMass;
         gameObject.transform.localScale = _startScale;
     }
+    public void GainMass(CheeseMass mass)
+    {
+        if (CheeseMass.Mass + mass.Mass > MaxMass)
+        {
+            float newMass = MaxMass - CheeseMass.Mass;
+            mass.LooseMass(mass.Mass - newMass);
+        }
 
-    public void ChangeMass(float amount)
-    {
-        if (amount > 0)
-        {
-            GainMass(amount);
-        }
-        else
-        {
-            LooseMass(amount * -1);
-        }
+        CheeseMass.MergeWithOtherCheeseMass(mass);
+        rb.mass += (mass.Mass * RBMassPerMass);
+        gameObject.transform.localScale += (MassScaleChange * mass.Mass);
     }
-    private void GainMass(float amount)
+    public void GainStats(ECheeseMassStats stat, float amount)
     {
-        if (CurrentMass + amount > MaxMass)
-        {
-            amount = MaxMass - CurrentMass;
-        }
-        rb.mass += (amount * MassSteps);
-        gameObject.transform.localScale += (MassScaleChange * amount);
+        CheeseMass.AddStat(stat, amount);
     }
-    private void LooseMass(float amount)
+    public void LooseMass(float amount)
     {
+        Debug.Log($"MassController: LooseMass({amount})");
         if (shielded)
         {
             return;
         }
 
-        if (CurrentMass - amount < MinMass)
+        if (CheeseMass.Mass - amount < MinMass)
         {
-            amount = CurrentMass - MinMass;
+            amount = CheeseMass.Mass - MinMass;
         }
-        rb.mass -= (amount * MassSteps);
+
+        Debug.Log($"MassController: LooseMass({amount}) fr");
+
+        CheeseMass.LooseMass(amount);
+        rb.mass -= (amount * RBMassPerMass);
+
         gameObject.transform.localScale -= (MassScaleChange * amount);
+
         StartCoroutine(DropCheeseCollectables(amount));
     }
 
@@ -79,7 +100,8 @@ public class MassController : MonoBehaviour
     {
         for (int i = 0; i < amount; i++)
         {
-            Instantiate(CheeseCollectablePrefab, WheelCenter.transform.position + WheelCenter.transform.up + WheelCenter.transform.forward * -3, WheelCenter.transform.rotation);
+            CheeseCollectable cc = Instantiate(CheeseCollectablePrefab, WheelCenter.transform.position + WheelCenter.transform.up + WheelCenter.transform.forward * -3, WheelCenter.transform.rotation);
+            cc.CheeseMass = new CheeseMass(1, CheeseMass.NormalizedStats);
             yield return new WaitForSeconds(0.3f);
         }
     }
