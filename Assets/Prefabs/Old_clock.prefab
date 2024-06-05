@@ -83,15 +83,30 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c35bb46b25539b548a3ac40d629b2d93, type: 2}
+    - target: {fileID: -4420841209527754800, guid: caa027d66de399d47ba3068c822aa68d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: -3662364486756884542, guid: caa027d66de399d47ba3068c822aa68d,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e458449a36c209c429adf152a3672180, type: 2}
+    - target: {fileID: -650433988561056430, guid: caa027d66de399d47ba3068c822aa68d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: caa027d66de399d47ba3068c822aa68d,
         type: 3}
       propertyPath: m_Name
       value: Old_clock
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: caa027d66de399d47ba3068c822aa68d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4292382779800264236, guid: caa027d66de399d47ba3068c822aa68d,
         type: 3}

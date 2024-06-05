@@ -232,7 +232,7 @@ WheelCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 2039
+    m_Bits: 2038
   m_LayerOverridePriority: 0
   m_Enabled: 1
   m_ProvidesContacts: 0
