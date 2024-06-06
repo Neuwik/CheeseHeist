@@ -101,7 +101,7 @@ public class MassController : MonoBehaviour
         for (int i = 0; i < amount; i++)
         {
             CheeseCollectable cc = Instantiate(CheeseCollectablePrefab, WheelCenter.transform.position + WheelCenter.transform.up + WheelCenter.transform.forward * -3, WheelCenter.transform.rotation);
-            cc.CheeseMass = new CheeseMass(1, CheeseMass.NormalizedStats);
+            cc.CheeseMass = new CheeseMass(1, CheeseMass.Stats);
             yield return new WaitForSeconds(0.3f);
         }
     }

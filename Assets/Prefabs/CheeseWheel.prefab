@@ -386,7 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3219b0f334d6d74780f559f17386ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MassSteps: 100
+  RBMassPerMass: 100
   MinMass: 15
   MaxMass: 30
   rb: {fileID: 3371605757867553758}

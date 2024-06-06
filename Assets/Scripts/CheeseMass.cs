@@ -10,8 +10,19 @@ public enum ECheeseMassStats { None = 0, Molten = 1, Spicy = 2, Greasy = 3 }
 public class CheeseMass
 {
     public float Mass = 1;
-    public Vector3 Stats = Vector3.zero;
-    public Vector3 NormalizedStats { get => Stats.normalized; }
+    [SerializeField]
+    private Vector3 _stats;
+    public Vector3 Stats
+    {
+        get { return _stats; }
+        set
+        {
+            if (value.magnitude > 1)
+                _stats = value.normalized;
+            else
+                _stats = value;
+        }
+    }
 
     public CheeseMass() { }
 
@@ -35,38 +46,31 @@ public class CheeseMass
     {
         float oldMass = Mass;
         Mass += amount;
-        Stats *= (Mass / oldMass);
     }
 
     public void LooseMass(float amount)
     {
-        float oldMass = Mass;
         Mass -= amount;
-        Stats *= (Mass / oldMass);
     }
 
     public void SetStartCheeseMass(float mass, Vector3 stats)
     {
         Mass = mass;
-        if (stats.magnitude > 1)
-        {
-            stats = stats.normalized;
-        }
-        Stats = stats * Mass;
+        Stats = stats;
     }
 
     public void MergeWithOtherCheeseMass(CheeseMass other)
     {
-        Stats += other.Stats * (other.Mass / Mass);
+        float oldMass = Mass;
         Mass += other.Mass;
+        Stats = (((Stats * oldMass) + (other.Stats) * other.Mass)) / Mass;
 
         other.SetStartCheeseMass(0, Vector3.zero);
     }
 
-    public void AddStat(ECheeseMassStats stat, float amount)
+    public void AddStat(ECheeseMassStats stat, float percent)
     {
-        // Percent ?
-        Stats += StatEnumToVector3(stat) * (amount / Mass);
+        Stats = Stats + (StatEnumToVector3(stat) * percent);
     }
 
     private Vector3 StatEnumToVector3(ECheeseMassStats stat)
@@ -86,7 +90,7 @@ public class CheeseMass
         }
     }
 
-    public float GetStatAmount(ECheeseMassStats stat)
+    public float GetStatPercentAmount(ECheeseMassStats stat)
     {
         Vector3 statAsV3 = StatEnumToVector3(stat);
         if (statAsV3.x > 0)
