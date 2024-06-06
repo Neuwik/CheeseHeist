@@ -47,7 +47,7 @@ public class Player : MonoBehaviour
                 {
                     if (currentICC.Camera != null)
                     {
-                        PlayerCamera.enabled = true;
+                        PlayerCamera.enabled = false;
                         Transform newCameraTransform = currentICC.Camera.transform;
                         PlayerCamera.transform.position = newCameraTransform.position;
                         PlayerCamera.transform.rotation = newCameraTransform.rotation;
