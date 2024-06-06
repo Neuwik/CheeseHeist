@@ -7,7 +7,7 @@ using static UnityEngine.GraphicsBuffer;
 public class DamagingObject : MonoBehaviour
 {
     public float MassDamage;
-    public float StatGain;
+    public float StatGainPercent;
     public ECheeseMassStats Stat;
     public int Uses;
     [Min(0.1f)]
@@ -60,7 +60,7 @@ public class DamagingObject : MonoBehaviour
         {
             yield return new WaitUntil(() => targets[target]);
             target.LooseMass(MassDamage);
-            target.GainStats(Stat, StatGain);
+            target.GainStats(Stat, StatGainPercent);
             if (Uses > 0)
             {
                 Uses--;

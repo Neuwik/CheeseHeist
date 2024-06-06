@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Events;
@@ -31,6 +32,9 @@ public class Player : MonoBehaviour
     public event Action<Player, EPlayerState> OnStateChanged;
 
     public List<CheeseMass> SelectableCheeseMasses;
+
+    public TMP_Text CoinsTextWheel;
+    public TMP_Text CoinsTextPlayer;
 
     private EPlayerState _state;
     public EPlayerState State
@@ -198,14 +202,20 @@ public class Player : MonoBehaviour
 
     public void SelectCheese(int cheeseIndex)
     {
-        SelectedCheeseMass = new CheeseMass(SelectableCheeseMasses[cheeseIndex%SelectableCheeseMasses.Count]);
-        SpawnCheeseWheel();
+        if(State == EPlayerState.Racing || State == EPlayerState.UI) 
+        {
+            SelectedCheeseMass = new CheeseMass(SelectableCheeseMasses[cheeseIndex % SelectableCheeseMasses.Count]);
+            SpawnCheeseWheel();
+        }
+        
 
     }
 
     public void GainPoints(float gain)
     {
         Points += gain;
+        CoinsTextWheel.text = Points.ToString();
+        CoinsTextPlayer.text = Points.ToString();
     }
 
     #region UIInputs

@@ -81,9 +81,9 @@ public class CheeseMass
             case ECheeseMassStats.None:
                 return Vector3.zero;
             case ECheeseMassStats.Molten:
-                return Vector3.up;
-            case ECheeseMassStats.Spicy:
                 return Vector3.right;
+            case ECheeseMassStats.Spicy:
+                return Vector3.up;
             case ECheeseMassStats.Greasy:
                 return Vector3.forward;
             default:

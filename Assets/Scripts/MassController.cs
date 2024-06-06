@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MassController : MonoBehaviour
@@ -25,8 +26,11 @@ public class MassController : MonoBehaviour
             }
             _cheeseMass = newCheeseMass;
             rb.mass = _cheeseMass.Mass * RBMassPerMass;
+            UpdateStatsText();
         }
     }
+
+    public TMP_Text statsText;
 
     public Rigidbody rb;
     [SerializeField]
@@ -66,12 +70,14 @@ public class MassController : MonoBehaviour
         }
 
         CheeseMass.MergeWithOtherCheeseMass(mass);
+        UpdateStatsText();
         rb.mass += (mass.Mass * RBMassPerMass);
         gameObject.transform.localScale += (MassScaleChange * mass.Mass);
     }
     public void GainStats(ECheeseMassStats stat, float amount)
     {
         CheeseMass.AddStat(stat, amount);
+        UpdateStatsText();
     }
     public void LooseMass(float amount)
     {
@@ -89,6 +95,7 @@ public class MassController : MonoBehaviour
         Debug.Log($"MassController: LooseMass({amount}) fr");
 
         CheeseMass.LooseMass(amount);
+        UpdateStatsText();
         rb.mass -= (amount * RBMassPerMass);
 
         gameObject.transform.localScale -= (MassScaleChange * amount);
@@ -109,6 +116,11 @@ public class MassController : MonoBehaviour
     public void Shield(float duration)
     {
         StartCoroutine(ApplyShield(duration));
+    }
+
+    public void UpdateStatsText()
+    {
+        statsText.text = CheeseMass.ToString();
     }
 
     public IEnumerator ApplyShield(float duration)

@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MassDamage: 1
-  StatGain: 1
+  StatGainPercent: 0.15
   Stat: 1
   Uses: -1
   TickRate: 1
