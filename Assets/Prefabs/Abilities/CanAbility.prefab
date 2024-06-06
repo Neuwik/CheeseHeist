@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b61cc7440c205d4aaaecf470d6bae9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 30747c4de76964b428e190ce1e8b2b11, type: 3}
+  Icon: {fileID: 21300000, guid: 762d34fbc5618044d88715eda8c5bd6e, type: 3}
   Name: Can
   Caster: {fileID: 0}
   Duration: -1

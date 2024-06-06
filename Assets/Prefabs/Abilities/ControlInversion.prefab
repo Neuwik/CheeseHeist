@@ -4843,7 +4843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 416881795f33a1b41972bf7a1e6f2364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 30747c4de76964b428e190ce1e8b2b11, type: 3}
+  Icon: {fileID: 21300000, guid: e45836c43817787488cab57c882db765, type: 3}
   Name: Control Inversion
   Caster: {fileID: 0}
   Duration: 5
@@ -4851,3 +4851,4 @@ MonoBehaviour:
   SpawnOffsetFromWheelCenter: {x: 0, y: 0, z: 0}
   UseOnSelf: 0
   Ability: 1
+  Power: 10

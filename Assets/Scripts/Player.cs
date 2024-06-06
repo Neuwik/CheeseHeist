@@ -207,8 +207,6 @@ public class Player : MonoBehaviour
             SelectedCheeseMass = new CheeseMass(SelectableCheeseMasses[cheeseIndex % SelectableCheeseMasses.Count]);
             SpawnCheeseWheel();
         }
-        
-
     }
 
     public void GainPoints(float gain)
