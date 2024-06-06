@@ -114,13 +114,13 @@ public class CheeseWheelMovement : MonoBehaviour
         }
 
         //Rotate Cheese Wheel Mesh
-        Vector3 pos = _anyBackWheel.transform.localPosition;
-        Quaternion wheelRot = _anyBackWheel.transform.localRotation;
+        Vector3 pos = _anyBackWheel.transform.position;
+        Quaternion wheelRot = _anyBackWheel.transform.rotation;
 
-        //_anyBackWheel.GetWorldPose(out pos, out wheelRot);
+        _anyBackWheel.GetWorldPose(out pos, out wheelRot);
 
-        RotatingObject.localPosition = new Vector3(RotatingObject.localPosition.x, pos.y, RotatingObject.localPosition.z);
-        RotatingObject.localRotation = wheelRot;
+        RotatingObject.position = new Vector3(RotatingObject.position.x, pos.y, RotatingObject.position.z);
+        RotatingObject.rotation = wheelRot;
 
         #endregion
 
