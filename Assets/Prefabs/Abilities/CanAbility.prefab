@@ -95,4 +95,4 @@ MonoBehaviour:
   Caster: {fileID: 0}
   Duration: -1
   SpawnParent: 0
-  SpawnOffsetFromWheelCenter: {x: 0, y: 5, z: -10}
+  SpawnOffsetFromWheelCenter: {x: 0, y: 3, z: -5}
