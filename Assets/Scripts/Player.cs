@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -28,6 +29,8 @@ public class Player : MonoBehaviour
     public Camera PlayerCamera;
 
     public event Action<Player, EPlayerState> OnStateChanged;
+
+    public List<CheeseMass> SelectableCheeseMasses;
 
     private EPlayerState _state;
     public EPlayerState State
@@ -193,6 +196,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SelectCheese(int cheeseIndex)
+    {
+        SelectedCheeseMass = new CheeseMass(SelectableCheeseMasses[cheeseIndex%SelectableCheeseMasses.Count]);
+        SpawnCheeseWheel();
+
+    }
+
     public void GainPoints(float gain)
     {
         Points += gain;
@@ -202,11 +212,6 @@ public class Player : MonoBehaviour
 
     public void OnSubmit()
     {
-        if (State == EPlayerState.UI)
-        {
-            SpawnCheeseWheel();
-            return;
-        }
         if (State == EPlayerState.Waiting)
         {
             State = EPlayerState.Ready;
