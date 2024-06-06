@@ -54,6 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Player1Avatar: {fileID: 5517120159081346568}
   Player2Avatar: {fileID: 8859499628328627415}
+  LobbyCamera: {fileID: 5096851730337549113}
   LobbyCenter: {fileID: 4191404083303177044}
   WaitingForPlayerPanel: {fileID: 1948718045288226235}
   WaitingForReadyPanel: {fileID: 5843354131095461306}

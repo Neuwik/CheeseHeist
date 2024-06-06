@@ -41,6 +41,10 @@ public class Player : MonoBehaviour
                 Avatar?.SetInteger("StateEnum", (int)_state);
                 Avatar?.transform.LookAt(GameManager.Instance.Lobby.LobbyCenter);
 
+                if (currentICC != null && currentICC.Canvas != null)
+                {
+                    currentICC.Canvas.enabled = false;
+                }
 
                 currentICC = InputCameraCanvasMaps.Find(m => m.State == _state);
                 if (currentICC != null)
@@ -57,6 +61,11 @@ public class Player : MonoBehaviour
                     else
                     {
                         PlayerCamera.enabled = false;
+                        Transform newCameraTransform = GameManager.Instance.Lobby.LobbyCamera.transform;
+                        PlayerCamera.transform.position = newCameraTransform.position + _playerOffset;
+                        PlayerCamera.transform.rotation = newCameraTransform.rotation;
+                        PlayerCamera.transform.parent = newCameraTransform.parent;
+                        PlayerCamera.enabled = true;
                     }
 
                     if (!String.IsNullOrEmpty(currentICC.InputActionMapName))
@@ -71,6 +80,7 @@ public class Player : MonoBehaviour
                     if (currentICC.Canvas != null)
                     {
                         currentICC.Canvas.worldCamera = PlayerCamera;
+                        currentICC.Canvas.enabled = true;
                     }
                 }
                 else
@@ -83,6 +93,8 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    private Vector3 _playerOffset = Vector3.zero;
 
     public GameObject CheeseWheel;
 
@@ -113,20 +125,25 @@ public class Player : MonoBehaviour
     {
         GameManager.Instance.OnStateChanged += OnGameManagerStateChanged;
         _massController = WheelMovement.GetComponent<MassController>();
+
+        if (Inputs.playerIndex % 2 == 0)
+        {
+            _playerOffset = Vector3.left;
+        }
+        else
+        {
+            _playerOffset = Vector3.right;
+        }
+
+        float playerMult = (float)Math.Floor((double)Inputs.playerIndex / 2);
+        _playerOffset *= (playerMult + 1);
+
         State = EPlayerState.Waiting;
     }
 
     public void SpawnCheeseWheel()
     {
-        if (Inputs.playerIndex % 2 == 0)
-        {
-            WheelMovement.SetPlayerSpecificResetPositionOffset(Vector3.left * 2 * (Inputs.playerIndex + 1));
-        }
-        else
-        {
-            WheelMovement.SetPlayerSpecificResetPositionOffset(Vector3.right * 2 * (Inputs.playerIndex + 1));
-        }
-
+        WheelMovement.SetPlayerSpecificResetPositionOffset(_playerOffset);
         WheelMovement.SetResetPoint(GameManager.Instance.StartPoint.gameObject);
 
         _massController.CheeseMass = SelectedCheeseMass;

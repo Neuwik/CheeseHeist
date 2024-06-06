@@ -261,7 +261,7 @@ MonoBehaviour:
     Canvas: {fileID: 8934861213216155307}
   - State: 11
     InputActionMapName: UI
-    Camera: {fileID: 7998974238689567145}
+    Camera: {fileID: 0}
     Canvas: {fileID: 8934861213216155307}
   - State: 12
     InputActionMapName: Player
@@ -352,7 +352,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 7998974238689567145}
-  m_PlaneDistance: 10
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
