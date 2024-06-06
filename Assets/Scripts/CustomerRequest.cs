@@ -25,7 +25,7 @@ public class CustomerRequest
         float amount = Random.Range(20f, 50f);
 
         coinsReward = Random.Range(10, 50);
-        Cheese = new CheeseMass(coinsReward, 
+        Cheese = new CheeseMass(amount, 
             CheeseMass.StatEnumToVector3(ECheeseMassStats.Greasy) *fatContent + CheeseMass.StatEnumToVector3(ECheeseMassStats.Spicy) * cheesetype + CheeseMass.StatEnumToVector3(ECheeseMassStats.Molten) * cheeseconsistency);
     }
 

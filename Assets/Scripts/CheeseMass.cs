@@ -18,10 +18,10 @@ public class CheeseMass
         get { return _stats; }
         set
         {
-            if (value.magnitude > 1)
-                _stats = value.normalized;
-            else
-                _stats = value;
+            float sum = value.x + value.y + value.z;
+            if (sum > 1)
+                value /= sum;
+            _stats = value;
         }
     }
 
@@ -111,7 +111,7 @@ public class CheeseMass
 
     public override string ToString()
     {
-        return $"CheeseType: {GetStatPercentAmount(ECheeseMassStats.Spicy)}, Consistency: {GetStatPercentAmount(ECheeseMassStats.Molten)}, Fat: {GetStatPercentAmount(ECheeseMassStats.Greasy):F2}";
+        return $"Mass: {Mathf.RoundToInt(10*Mass)/10}dag, Spicy: {Mathf.RoundToInt(100 * GetStatPercentAmount(ECheeseMassStats.Spicy))}%, Molten: {Mathf.RoundToInt(100 * GetStatPercentAmount(ECheeseMassStats.Molten))}%, Fat: {Mathf.RoundToInt(100 * GetStatPercentAmount(ECheeseMassStats.Greasy))}%";
     }
 
     public float StatsMatch(CheeseMass other)
