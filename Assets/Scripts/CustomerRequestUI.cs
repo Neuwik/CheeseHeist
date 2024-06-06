@@ -1,3 +1,5 @@
+using System.Xml.Serialization;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,26 +15,29 @@ public class CustomerRequestUI : MonoBehaviour
 
     private void Start()
     {
-        playerCheeseSelection = FindObjectOfType<PlayerCheeseSelection>();
-        DisplayRequests();
-        submitButton.onClick.AddListener(OnSubmit);
+        //playerCheeseSelection = FindObjectOfType<PlayerCheeseSelection>();
+        //DisplayRequests();
+        //submitButton.onClick.AddListener(OnSubmit);
     }
 
-    void DisplayRequests()
+    public void DisplayRequests()
     {
+        requestListContent.SetActive(false);
         foreach (Transform child in requestListContent.transform)
         {
             Destroy(child.gameObject);
         }
 
-        foreach (CustomerRequest request in requestManager.requests)
+        foreach (CustomerRequest request in requestManager.openRequests)
         {
+            requestListContent.SetActive(true);
             GameObject requestItem = Instantiate(requestItemPrefab, requestListContent.transform);
-            requestItem.GetComponentInChildren<Text>().text = request.ToString();
-            requestItem.GetComponent<Button>().onClick.AddListener(() => OnRequestSelected(request));
+            requestItem.GetComponentInChildren<TMP_Text>().text = request.ToString();
+            //requestItem.GetComponent<Button>().onClick.AddListener(() => OnRequestSelected(request));
         }
     }
 
+   
     void OnRequestSelected(CustomerRequest request)
     {
         selectedRequest = request;
@@ -43,7 +48,7 @@ public class CustomerRequestUI : MonoBehaviour
     {
         if (selectedRequest != null)
         {
-            playerCheeseSelection.SelectCheese(selectedRequest.cheeseType, selectedRequest.consistency, selectedRequest.fatContent);
+            //playerCheeseSelection.SelectCheese(selectedRequest.cheeseType, selectedRequest.consistency, selectedRequest.fatContent);
 
             // Hide the UI after selection
             gameObject.SetActive(false);

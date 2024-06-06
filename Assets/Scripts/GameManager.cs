@@ -71,16 +71,12 @@ public class GameManager : MonoBehaviour
             else if (_state != value)
             {
                 _state = value;
-                if (_state == EGameManagerState.WatingRoom)
-                {
-                    _deliveredCheeseMass = 0;
-                }
+                
                 OnStateChanged?.Invoke(_state);
             }
         }
     }
     
-    public float CheeseMassNeeded;
     public int StartCountdownLength;
     [HideInInspector]
     public Player Player1;
@@ -90,9 +86,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Level Start Point")]
     public StartPoint StartPoint;
-    private float _deliveredCheeseMass;
 
     public Lobby Lobby;
+    public CustomerRequestManager CustomerRequestManager;
 
     [Header("State you want to Test (None => play normaly")]
     public EGameManagerState TestState;
@@ -263,7 +259,7 @@ public class GameManager : MonoBehaviour
     public void ReloadReferences()
     {
         OnStateChanged = null;
-
+        CustomerRequestManager = FindAnyObjectByType<CustomerRequestManager>();
         //Debug.Log("Reload References");
         StartPoint = FindAnyObjectByType<StartPoint>();
 
@@ -290,6 +286,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         State = EGameManagerState.Racing;
         Lobby.StartCountdownPanel.SetActive(false);
+        CustomerRequestManager.GenerateCustomerRequests();
     }
 
     private void ResetGame()
@@ -433,18 +430,12 @@ public class GameManager : MonoBehaviour
     public void DeliveredCheese(Player player, CheeseMass cheese)
     {
         // Calculate cheese worth
-        float cheeseWorth = cheese.Mass;
 
-        if (cheeseWorth + _deliveredCheeseMass > CheeseMassNeeded)
-        {
-            cheeseWorth = CheeseMassNeeded - _deliveredCheeseMass;
-        }
-
-        player.GainPoints(cheeseWorth);
-        _deliveredCheeseMass += cheeseWorth;
+        
+        player.GainPoints(CustomerRequestManager.DeliverCheese(cheese));
 
 
-        if (_deliveredCheeseMass >= CheeseMassNeeded)
+        if (CustomerRequestManager.allRequestsDone)
         {
             State = EGameManagerState.Finished;
         }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using static CustomerPreferences;
 
 public enum ECheeseMassStats { None = 0, Molten = 1, Spicy = 2, Greasy = 3 }
 
@@ -73,7 +74,7 @@ public class CheeseMass
         Stats = Stats + (StatEnumToVector3(stat) * percent);
     }
 
-    private Vector3 StatEnumToVector3(ECheeseMassStats stat)
+    public static Vector3 StatEnumToVector3(ECheeseMassStats stat)
     {
         switch (stat)
         {
@@ -107,4 +108,15 @@ public class CheeseMass
         }
         return 0;
     }
+
+    public override string ToString()
+    {
+        return $"CheeseType: {GetStatPercentAmount(ECheeseMassStats.Spicy)}, Consistency: {GetStatPercentAmount(ECheeseMassStats.Molten)}, Fat: {GetStatPercentAmount(ECheeseMassStats.Greasy):F2}";
+    }
+
+    public float StatsMatch(CheeseMass other)
+    {
+        return 1 - Vector3.Distance(Stats, other.Stats);
+    }
+
 }
