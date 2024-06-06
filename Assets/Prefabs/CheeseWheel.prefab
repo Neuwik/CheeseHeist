@@ -350,7 +350,7 @@ MonoBehaviour:
   AutoResetAngle: 45
   motorTorque: 2000
   brakeTorque: 2000
-  maxSpeed: 20
+  maxSpeed: 30
   steeringRange: 30
   steeringRangeAtMaxSpeed: 10
   centreOfGravityOffset: -1
