@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4466543472797484464}
   - component: {fileID: -5380636590156555832}
   m_Layer: 10
-  m_Name: ToothPick
+  m_Name: Toothpick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MassDamage: 1
-  StatGain: 0
+  StatGainPercent: 0
   Stat: 0
   Uses: 1
   TickRate: 0
@@ -139,8 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e02bbc835b70764984915f741befe32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 30747c4de76964b428e190ce1e8b2b11, type: 3}
-  Name: ToothPick
+  Icon: {fileID: 21300000, guid: 3c615aa7f553c8a44bfcb09c12c59ccb, type: 3}
+  Name: Toothpick
   Caster: {fileID: 0}
   Duration: -1
   SpawnParent: 0

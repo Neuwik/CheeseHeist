@@ -4843,7 +4843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01109aaf2a4a17d4a98625e539071a7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 30747c4de76964b428e190ce1e8b2b11, type: 3}
+  Icon: {fileID: 21300000, guid: edb16f2cfbbba134e8c36b867baaff91, type: 3}
   Name: Shield
   Caster: {fileID: 0}
   Duration: 8

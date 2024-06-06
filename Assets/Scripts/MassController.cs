@@ -120,7 +120,7 @@ public class MassController : MonoBehaviour
 
     public void UpdateStatsText()
     {
-        statsText.text = CheeseMass.ToString();
+        statsText.text = CheeseMass.ToString().Replace(", ", "\n");
     }
 
     public IEnumerator ApplyShield(float duration)

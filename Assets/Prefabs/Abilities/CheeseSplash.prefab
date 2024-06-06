@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ca06df6be05e1943be9953a1ce38a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: 8e7b8b7990af80e499380032a7c6a765, type: 3}
+  Icon: {fileID: 21300000, guid: 82afdd6e4c7c7f44a9d4d02193377938, type: 3}
   Name: Cheese Splash
   Caster: {fileID: 0}
   Duration: 10
