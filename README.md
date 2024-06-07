@@ -6,3 +6,4 @@ Unity-Package in Exports Folder: ./Exports/
 # LARGE PROJECT
 EXE and Unity-Package were to large to upload
 We only need the "MainGame" scene to run/export our project (with all dependencies)
+Link to Development GitHub: https://github.com/Neuwik/CheeseHeist.git
